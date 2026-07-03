@@ -1,0 +1,30 @@
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card" appReveal="scale">
+      <div class="cta-bg" aria-hidden="true">
+        <span class="cta-blob cta-blob-1"></span>
+        <span class="cta-blob cta-blob-2"></span>
+        <span class="cta-grid"></span>
+      </div>
+
+      <div class="cta-content">
+        <span class="pill pill--glass cta-eyebrow">{{ i18n.t(eyebrowKey) }}</span>
+        <h2 class="cta-title">{{ i18n.t(titleKey) }}</h2>
+        <p class="cta-subtitle">{{ i18n.t(subtitleKey) }}</p>
+
+        <div class="cta-actions">
+          <button type="button" class="btn btn--wind btn--lg" (click)="setTab(primaryTab)">
+            <mat-icon class="icon-sm">{{ primaryIcon }}</mat-icon>
+            {{ i18n.t(primaryLabelKey) }}
+          </button>
+          @if (secondaryLabelKey) {
+            <button type="button" class="btn btn--outline btn--lg cta-secondary" (click)="setTab(secondaryTab)">
+              <mat-icon class="icon-sm">{{ secondaryIcon }}</mat-icon>
+              {{ i18n.t(secondaryLabelKey) }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

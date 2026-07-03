@@ -1,0 +1,58 @@
+<div class="page-about page-enter">
+
+  <!-- ============ HERO ============ -->
+  <section class="about-hero">
+    <div class="container">
+      <div class="about-hero__grid">
+        <div class="about-hero__copy">
+          <span class="pill about-hero__eyebrow animate-fade-in-up delay-1">
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            {{ i18n.t('about.eyebrow') }}
+          </span>
+          <h1 class="about-hero__title animate-fade-in-up delay-2">
+            {{ i18n.t('about.title.line1') }}
+            <span class="text-gradient">{{ i18n.t('about.title.line2') }}</span>
+          </h1>
+          <p class="about-hero__subtitle animate-fade-in-up delay-3">
+            {{ i18n.t('about.p1') }}
+          </p>
+          <p class="about-hero__subtitle animate-fade-in-up delay-4">
+            {{ i18n.t('about.p2') }}
+          </p>
+          <div class="about-hero__actions animate-fade-in-up delay-5">
+            <a [href]="githubUrl()" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+              <mat-icon class="icon-sm">code</mat-icon>
+              {{ i18n.t('about.readSource') }}
+            </a>
+          </div>
+        </div>
+
+        <div class="about-hero__visual animate-fade-in-right delay-2">
+          <div class="logo-showcase">
+            <div class="logo-showcase__halo" aria-hidden="true"></div>
+            <div class="logo-showcase__ring" aria-hidden="true"></div>
+            <img src="logo.svg" alt="Zarestia logo" class="logo-showcase__img" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION ============ -->
+  <section class="mission">
+    <div class="container container-narrow">
+      <div class="mission-text" appReveal>
+        <span class="pill section-header__eyebrow">{{ i18n.t('about.mission.eyebrow') }}</span>
+        <h2 class="mission-title">
+          {{ i18n.t('about.mission.title.line1') }}<span class="text-gradient">{{ i18n.t('about.mission.title.line2') }}</span>
+        </h2>
+        <div class="mission-body">
+          <p>{{ i18n.t('about.mission.body1') }}</p>
+          <p>{{ i18n.t('about.mission.body2') }}</p>
+          <p>{{ i18n.t('about.mission.body3') }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

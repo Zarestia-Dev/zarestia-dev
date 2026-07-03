@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  position: relative;
+  min-height: 100vh;
+}
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  padding-top: var(--navbar-height);
+  position: relative;
+  z-index: 1;
+}
+
+// Decorative wind streaks — fixed full-page layer that drifts across the
+// background at a slow pace. Purely visual, pointer-events: none.
+// Note: must NOT be inside a container with `isolation: isolate` or
+// `transform`, otherwise `position: fixed` gets trapped to that container
+// instead of the viewport.
+.wind-streaks {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.4;
+
+  .streak {
+    position: absolute;
+    width: 60vw;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--z-lime-400-rgb), 0.6) 50%,
+      transparent 100%
+    );
+    transform-origin: center;
+    will-change: transform, opacity;
+
+    @media (max-width: 768px) {
+      width: 80vw;
+    }
+  }
+
+  .streak-1 {
+    top: 18%;
+    left: -10%;
+    animation: z-wind-streak 18s ease-in-out infinite;
+    animation-delay: 0s;
+  }
+  .streak-2 {
+    top: 52%;
+    left: -20%;
+    animation: z-wind-streak 24s ease-in-out infinite;
+    animation-delay: -7s;
+    opacity: 0.6;
+  }
+  .streak-3 {
+    top: 78%;
+    left: -15%;
+    animation: z-wind-streak 21s ease-in-out infinite;
+    animation-delay: -14s;
+    opacity: 0.5;
+  }
+}
+
+// Hide wind streaks in dark mode (they're too prominent against ink)
+:root.dark .wind-streaks {
+  opacity: 0.25;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wind-streaks {
+    display: none;
+  }
+}

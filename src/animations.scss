@@ -1,0 +1,256 @@
+// ============================================================================
+// ZARESTIA — SCSS-BASED ANIMATION LIBRARY
+// ----------------------------------------------------------------------------
+// Per project requirements: NO Angular Animations. All motion is plain
+// CSS keyframes & transitions, gated behind prefers-reduced-motion.
+// ============================================================================
+
+// ============================================================================
+// 1. CORE KEYFRAMES
+// ============================================================================
+
+// ---- "Spirit of the Wind" button effects ----
+@keyframes btnBlowWind {
+  0%   { background-position: 0 0; }
+  100% { background-position: 200px 0; }
+}
+
+@keyframes btnDriftLeaves {
+  0%   { background-position: 0 0; }
+  100% { background-position: 240px 0; }
+}
+
+@keyframes z-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes z-fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes z-fade-in-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes z-fade-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes z-fade-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes z-scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes z-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes z-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes z-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.04); opacity: 0.92; }
+}
+
+@keyframes z-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-12px) rotate(-1.5deg); }
+}
+
+@keyframes z-float-reverse {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(12px) rotate(1.5deg); }
+}
+
+@keyframes z-bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes z-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes z-breathe {
+  0%, 100% { transform: scale(0.96); opacity: 0.6; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes z-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(30px, -20px) scale(1.05); }
+  66%  { transform: translate(-20px, 30px) scale(0.97); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes z-drift-reverse {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-30px, 20px) scale(0.97); }
+  66%  { transform: translate(20px, -30px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+// Wind swirl — a slowly rotating halo behind the brand logo
+@keyframes z-swirl {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// Sparkle twinkle for highlight accents
+@keyframes z-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.1); }
+}
+
+// Underline draw — used for nav links & section eyebrows
+@keyframes z-draw-underline {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+// Gradient shift — used for animated text/gradient surfaces
+@keyframes z-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+// Ripple — for click feedback on cards/buttons
+@keyframes z-ripple {
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+// Pulse ring — for "live" indicators and donate CTA
+@keyframes z-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--z-lime-400-rgb), 0.55); }
+  70%  { box-shadow: 0 0 0 18px rgba(var(--z-lime-400-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--z-lime-400-rgb), 0); }
+}
+
+// Wind streak — diagonal lines drifting across hero
+@keyframes z-wind-streak {
+  0%   { transform: translateX(-110%) skewX(-18deg); opacity: 0; }
+  10%  { opacity: 0.5; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateX(110%) skewX(-18deg); opacity: 0; }
+}
+
+// ============================================================================
+// 2. UTILITY ANIMATION CLASSES
+// ============================================================================
+
+.animate-fade-in        { animation: z-fade-in        var(--transition-standard) both; }
+.animate-fade-in-up     { animation: z-fade-in-up     var(--transition-slow) both; }
+.animate-fade-in-down   { animation: z-fade-in-down   var(--transition-slow) both; }
+.animate-fade-in-left   { animation: z-fade-in-left   var(--transition-slow) both; }
+.animate-fade-in-right  { animation: z-fade-in-right  var(--transition-slow) both; }
+.animate-scale-in       { animation: z-scale-in       var(--transition-standard) both; }
+.animate-slide-up       { animation: z-slide-up       var(--transition-standard) both; }
+
+.animate-spin           { animation: z-spin 1s linear infinite; }
+.animate-pulse          { animation: z-pulse 2s ease-in-out infinite; }
+.animate-float          { animation: z-float 6s ease-in-out infinite; }
+.animate-float-reverse  { animation: z-float-reverse 7s ease-in-out infinite; }
+.animate-bounce-soft    { animation: z-bounce-soft 2.5s ease-in-out infinite; }
+.animate-breathe        { animation: z-breathe 4s ease-in-out infinite; }
+.animate-drift          { animation: z-drift 22s ease-in-out infinite; }
+.animate-drift-reverse  { animation: z-drift-reverse 18s ease-in-out infinite; }
+.animate-swirl          { animation: z-swirl 24s linear infinite; }
+.animate-twinkle        { animation: z-twinkle 2.4s ease-in-out infinite; }
+.animate-pulse-ring     { animation: z-pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+// Stagger delays
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+.delay-5 { animation-delay: 0.40s; }
+.delay-6 { animation-delay: 0.48s; }
+.delay-7 { animation-delay: 0.56s; }
+.delay-8 { animation-delay: 0.64s; }
+
+// Speed modifiers
+.speed-fast   { animation-duration: var(--transition-fast); }
+.speed-slow   { animation-duration: var(--transition-slow); }
+
+// ============================================================================
+// 3. SCROLL-REVEAL PATTERN
+// ----------------------------------------------------------------------------
+// Pure CSS scroll-reveal using IntersectionObserver-set attribute.
+// Elements with [data-reveal] start hidden; the .is-visible class
+// (added by IntersectionObserver in `reveal.directive.ts`) plays the
+// entrance animation once when they enter the viewport.
+// ============================================================================
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &[data-reveal='left']  { transform: translateX(-32px); }
+  &[data-reveal='right'] { transform: translateX(32px); }
+  &[data-reveal='scale'] { transform: scale(0.92); }
+
+  &.is-visible[data-reveal='left'],
+  &.is-visible[data-reveal='right'] {
+    transform: translateX(0);
+  }
+  &.is-visible[data-reveal='scale'] {
+    transform: scale(1);
+  }
+}
+
+// ============================================================================
+// 4. HOVER LIFT UTILITY (cards, tiles)
+// ============================================================================
+
+.hover-lift {
+  transition: transform var(--transition-standard),
+              box-shadow var(--transition-standard),
+              border-color var(--transition-standard);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+// ============================================================================
+// 5. REDUCED MOTION
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

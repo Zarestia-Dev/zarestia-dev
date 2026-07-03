@@ -1,0 +1,806 @@
+// ============================================================================
+// ZARESTIA — GLOBAL THEME & DESIGN TOKENS
+// ----------------------------------------------------------------------------
+// Palette: milky-white base, lime green accent, deep green + black,
+// and bright yellow highlights. Drawn from the Zarestia brand identity.
+// ============================================================================
+
+@use 'sass:color';
+@use 'animations';
+
+// ============================================================================
+// 1. RAW COLOR TOKENS (never change between light/dark — raw values)
+// ============================================================================
+:root {
+  // --- Milky whites & lavenders (hair / light tones) ---
+  --z-milky-50:  #FFFFFF;
+  --z-milky-100: #FAFBF7;
+  --z-milky-200: #F4F6EE;
+  --z-milky-300: #ECEFE3;
+  --z-milky-400: #E2E6D6;
+
+  // --- Lime green accent (primary brand) ---
+  --z-lime-100: #ECFAD2;
+  --z-lime-200: #D9F5A0;
+  --z-lime-300: #C4F56E;
+  --z-lime-400: #A8E63A;
+  --z-lime-500: #8FCB26;
+  --z-lime-600: #6FA316;
+
+  // --- Deep green (brand primary) ---
+  --z-green-700: #2D7A3D;
+  --z-green-800: #1F5E2A;
+  --z-green-900: #14532D;
+  --z-green-950: #0B3A1E;
+
+  // --- Black / near-black (dark accents) ---
+  --z-ink-900:   #0F1410;
+  --z-ink-800:   #1A1F1B;
+  --z-ink-700:   #262C27;
+  --z-ink-600:   #353B36;
+
+  // --- Bright yellow (highlight accent) ---
+  --z-yellow-300: #FFE57A;
+  --z-yellow-400: #FFD93D;
+  --z-yellow-500: #FFC940;
+  --z-yellow-600: #E5A50A;
+
+  // --- Silver (metallic accent) ---
+  --z-silver-300: #D8DBD2;
+  --z-silver-400: #B8BCC0;
+  --z-silver-500: #95999B;
+
+  // --- Milky-white (light base tones) ---
+  --z-lavender-100: #F0F0FF;
+  --z-lavender-200: #E6E6FA;
+
+  // --- Status colors ---
+  --z-info:    #62A0EA;
+  --z-warn:    #F5C211;
+  --z-error:   #E01B24;
+  --z-success: #2EC27E;
+
+  // --- RGB triplets (for alpha compositing in SCSS) ---
+  --z-lime-400-rgb: 168, 230, 58;
+  --z-green-700-rgb: 45, 122, 61;
+  --z-green-800-rgb: 31, 94, 42;
+  --z-yellow-400-rgb: 255, 217, 61;
+  --z-ink-900-rgb: 15, 20, 16;
+  --z-milky-100-rgb: 250, 251, 247;
+}
+
+// ============================================================================
+// 2. SEMANTIC THEME TOKENS (light theme — default)
+// ============================================================================
+:root,
+:root.light {
+  --bg-base:        var(--z-milky-100);
+  --bg-elevated:    var(--z-milky-50);
+  --bg-subtle:      var(--z-milky-200);
+  --bg-sunken:      var(--z-milky-300);
+  --bg-inverse:     var(--z-ink-900);
+
+  --bg-base-rgb:    var(--z-milky-100-rgb);
+  --bg-elevated-rgb: var(--z-milky-100-rgb);
+
+  --fg-primary:     var(--z-ink-900);
+  --fg-secondary:   var(--z-ink-700);
+  --fg-muted:       var(--z-silver-500);
+  --fg-inverse:     var(--z-milky-50);
+  --fg-on-primary:  var(--z-ink-900);
+
+  --border-color:     rgba(var(--z-ink-900-rgb), 0.10);
+  --border-strong:    rgba(var(--z-ink-900-rgb), 0.18);
+  --border-accent:    rgba(var(--z-lime-400-rgb), 0.45);
+
+  --primary:        var(--z-green-800);
+  --primary-rgb:    var(--z-green-800-rgb);
+  --primary-soft:   var(--z-lime-200);
+  --primary-fg:     var(--z-milky-50);
+
+  --accent:         var(--z-lime-400);
+  --accent-rgb:     var(--z-lime-400-rgb);
+  --accent-soft:    var(--z-lime-100);
+  --accent-fg:      var(--z-ink-900);
+
+  --highlight:      var(--z-yellow-400);
+  --highlight-rgb:  var(--z-yellow-400-rgb);
+  --highlight-soft: var(--z-yellow-300);
+
+  --silver:         var(--z-silver-400);
+
+  // Glassmorphism panels
+  --glass-bg:       rgba(250, 251, 247, 0.72);
+  --glass-border:   rgba(var(--z-ink-900-rgb), 0.08);
+
+  // Shadows (soft, with a faint green tint)
+  --shadow-sm: 0 1px 2px rgba(var(--z-green-800-rgb), 0.06),
+               0 1px 1px rgba(var(--z-ink-900-rgb), 0.04);
+  --shadow-md: 0 4px 12px rgba(var(--z-green-800-rgb), 0.08),
+               0 2px 4px rgba(var(--z-ink-900-rgb), 0.04);
+  --shadow-lg: 0 12px 32px rgba(var(--z-green-800-rgb), 0.10),
+               0 4px 8px rgba(var(--z-ink-900-rgb), 0.05);
+  --shadow-xl: 0 24px 56px rgba(var(--z-green-800-rgb), 0.14),
+               0 8px 16px rgba(var(--z-ink-900-rgb), 0.06);
+  --shadow-glow: 0 0 0 1px rgba(var(--z-lime-400-rgb), 0.20),
+                 0 8px 24px rgba(var(--z-lime-400-rgb), 0.25);
+
+  // Gradient brand marks
+  --gradient-brand: linear-gradient(135deg, var(--z-green-800) 0%, var(--z-green-700) 60%, var(--z-lime-500) 100%);
+  --gradient-lime:  linear-gradient(135deg, var(--z-lime-300) 0%, var(--z-lime-500) 100%);
+  --gradient-wind:  linear-gradient(120deg, var(--z-milky-50) 0%, var(--z-lime-100) 50%, var(--z-milky-200) 100%);
+  --gradient-spark: linear-gradient(135deg, var(--z-yellow-300) 0%, var(--z-yellow-500) 100%);
+  --gradient-text:  linear-gradient(135deg, var(--z-green-800) 0%, var(--z-lime-500) 70%, var(--z-yellow-500) 100%);
+
+  color-scheme: light;
+}
+
+// ============================================================================
+// 3. DARK THEME
+// ============================================================================
+:root.dark {
+  --bg-base:        var(--z-ink-900);
+  --bg-elevated:    var(--z-ink-800);
+  --bg-subtle:      var(--z-ink-700);
+  --bg-sunken:      #0A0D0B;
+  --bg-inverse:     var(--z-milky-50);
+
+  --bg-base-rgb:    var(--z-ink-900-rgb);
+  --bg-elevated-rgb: 26, 31, 27;
+
+  --fg-primary:     var(--z-milky-50);
+  --fg-secondary:   var(--z-silver-300);
+  --fg-muted:       var(--z-silver-500);
+  --fg-inverse:     var(--z-ink-900);
+  --fg-on-primary:  var(--z-milky-50);
+
+  --border-color:     rgba(var(--z-milky-100-rgb), 0.08);
+  --border-strong:    rgba(var(--z-milky-100-rgb), 0.16);
+  --border-accent:    rgba(var(--z-lime-400-rgb), 0.50);
+
+  --primary:        var(--z-lime-400);
+  --primary-rgb:    var(--z-lime-400-rgb);
+  --primary-soft:   rgba(var(--z-lime-400-rgb), 0.16);
+  --primary-fg:     var(--z-ink-900);
+
+  --accent:         var(--z-lime-300);
+  --accent-rgb:     var(--z-lime-400-rgb);
+  --accent-soft:    rgba(var(--z-lime-400-rgb), 0.14);
+  --accent-fg:      var(--z-ink-900);
+
+  --highlight:      var(--z-yellow-400);
+  --highlight-rgb:  var(--z-yellow-400-rgb);
+  --highlight-soft: rgba(var(--z-yellow-400-rgb), 0.20);
+
+  --silver:         var(--z-silver-300);
+
+  --glass-bg:       rgba(15, 20, 16, 0.72);
+  --glass-border:   rgba(var(--z-milky-100-rgb), 0.08);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.50);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 0 1px rgba(var(--z-lime-400-rgb), 0.30),
+                 0 8px 24px rgba(var(--z-lime-400-rgb), 0.30);
+
+  --gradient-brand: linear-gradient(135deg, var(--z-lime-500) 0%, var(--z-lime-400) 60%, var(--z-green-700) 100%);
+  --gradient-lime:  linear-gradient(135deg, var(--z-lime-300) 0%, var(--z-lime-500) 100%);
+  --gradient-wind:  linear-gradient(120deg, var(--z-ink-800) 0%, rgba(var(--z-lime-400-rgb), 0.12) 50%, var(--z-ink-900) 100%);
+  --gradient-spark: linear-gradient(135deg, var(--z-yellow-300) 0%, var(--z-yellow-500) 100%);
+  --gradient-text:  linear-gradient(135deg, var(--z-lime-300) 0%, var(--z-yellow-400) 100%);
+
+  color-scheme: dark;
+}
+
+// ============================================================================
+// 4. TYPOGRAPHY & SPACING TOKENS
+// ============================================================================
+:root {
+  // Typography
+  --font-sans:      'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display:   'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  // Font sizes (modular scale, 1.125 ratio)
+  --font-size-xs:   0.75rem;    // 12px
+  --font-size-sm:   0.875rem;   // 14px
+  --font-size-base: 1rem;       // 16px
+  --font-size-md:   1.125rem;   // 18px
+  --font-size-lg:   1.25rem;    // 20px
+  --font-size-xl:   1.5rem;     // 24px
+  --font-size-2xl:  1.875rem;   // 30px
+  --font-size-3xl:  2.25rem;    // 36px
+  --font-size-4xl:  3rem;       // 48px
+  --font-size-5xl:  3.75rem;    // 60px
+  --font-size-6xl:  4.5rem;     // 72px
+
+  // Line heights
+  --leading-tight:  1.15;
+  --leading-snug:   1.3;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  // Font weights
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+  --weight-black:   900;
+
+  // Spacing (4px base scale)
+  --space-3xs: 0.125rem;  // 2px
+  --space-2xs: 0.25rem;   // 4px
+  --space-xs:  0.5rem;    // 8px
+  --space-sm:  0.75rem;   // 12px
+  --space-md:  1rem;      // 16px
+  --space-lg:  1.5rem;    // 24px
+  --space-xl:  2rem;      // 32px
+  --space-2xl: 3rem;      // 48px
+  --space-3xl: 4rem;      // 64px
+  --space-4xl: 6rem;      // 96px
+  --space-5xl: 8rem;      // 128px
+
+  // Layout
+  --container-max:    1200px;
+  --container-narrow: 760px;
+  --content-padding:  clamp(var(--space-md), 4vw, var(--space-2xl));
+  --section-gap:      clamp(var(--space-3xl), 8vw, var(--space-5xl));
+  --container-gap:    var(--space-2xl);
+
+  // Navbar
+  --navbar-height:    72px;
+  --navbar-height-scrolled: 64px;
+
+  // Radii
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  // Icon sizes
+  --icon-size-sm:  18px;
+  --icon-size-md:  24px;
+  --icon-size-lg:  32px;
+  --icon-size-xl:  48px;
+  --icon-container-size: 56px;
+
+  // Transitions
+  --transition-fast:    150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-standard: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:    450ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-bounce:  500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  // Z-index
+  --z-navbar:   1000;
+  --z-dropdown: 1100;
+  --z-modal:    1200;
+  --z-toast:    1300;
+}
+
+// ============================================================================
+// 5. GLOBAL RESET & BASE STYLES
+// ============================================================================
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--navbar-height) + var(--space-md));
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--leading-normal);
+  color: var(--fg-primary);
+  background: var(--bg-base);
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(var(--z-lime-400-rgb), 0.06), transparent 35%),
+    radial-gradient(circle at 100% 100%, rgba(var(--z-green-800-rgb), 0.05), transparent 35%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--transition-standard), color var(--transition-standard);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+  color: var(--fg-primary);
+}
+
+p {
+  line-height: var(--leading-relaxed);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+// Custom scrollbar (Zarestia-themed)
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-sunken);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--z-green-800), var(--z-green-900));
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 0 1px var(--bg-sunken);
+
+  &:hover {
+    background: linear-gradient(var(--z-lime-500), var(--z-green-800));
+  }
+}
+
+// Selection
+::selection {
+  background: rgba(var(--z-lime-400-rgb), 0.35);
+  color: var(--fg-primary);
+}
+
+// Focus-visible (a11y)
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+// ============================================================================
+// 6. UTILITY CLASSES
+// ============================================================================
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+}
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+}
+
+.text-gradient {
+  background: var(--gradient-text);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-accent { color: var(--accent); }
+.text-primary { color: var(--primary); }
+.text-muted { color: var(--fg-muted); }
+.text-highlight { color: var(--highlight); }
+
+.bg-elevated { background: var(--bg-elevated); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Page-level entrance animation
+.page-enter {
+  animation: pageEnter var(--transition-slow) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Generic z-stack
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+.stack-sm { gap: var(--space-sm); }
+.stack-md { gap: var(--space-md); }
+.stack-lg { gap: var(--space-lg); }
+.stack-xl { gap: var(--space-xl); }
+
+// Generic button styles (Zarestia-themed, no Material)
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-xl);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-pill);
+
+  cursor: pointer;
+  transition: var(--transition-standard);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: var(--gradient-brand);
+    color: var(--primary-fg);
+    box-shadow: 0 0 0 1px var(--border-strong), var(--shadow-md);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 50%);
+      opacity: 0;
+      transition: opacity var(--transition-standard);
+      pointer-events: none;
+    }
+  }
+
+  &--accent {
+    background: var(--gradient-lime);
+    color: var(--accent-fg);
+    box-shadow: var(--shadow-md), 0 0 0 1px rgba(var(--z-lime-400-rgb), 0.4);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    color: var(--fg-primary);
+    box-shadow: 0 0 0 1.5px var(--border-strong);
+
+    &:hover:not(:disabled) {
+      color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 1.5px var(--accent);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--fg-secondary);
+
+    &:hover:not(:disabled) {
+      background: var(--bg-subtle);
+      color: var(--fg-primary);
+    }
+  }
+
+  &--highlight {
+    background: var(--gradient-spark);
+    color: var(--z-ink-900);
+    box-shadow: var(--shadow-md);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  // ---- "Spirit of the Wind" variant ----
+  // A deep-green button with animated wind streaks (::before) and drifting
+  // leaf shapes (::after) layered on top. Use for the primary support/donate CTA.
+  &--wind {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--z-green-800) 0%, var(--z-green-900) 100%);
+    box-shadow: var(--shadow-md), inset 0 0 0 1px rgba(var(--z-lime-400-rgb), 0.3);
+    color: var(--z-milky-50);
+    transition: all 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='54' viewBox='0 0 100 54'%3E%3Cpath d='M-20,15 Q10,10 40,20 T100,10' fill='none' stroke='rgba(168, 230, 58, 0.25)' stroke-width='1.5' stroke-dasharray='10,15'/%3E%3Cpath d='M-10,35 Q25,40 50,30 T110,35' fill='none' stroke='rgba(250, 251, 247, 0.2)' stroke-width='1' stroke-dasharray='15,10'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      animation: btnBlowWind 7s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='54' viewBox='0 0 120 54'%3E%3Cpath d='M10,20 Q18,12 20,20 Q12,28 10,20' fill='%23A8E63A' opacity='0.5' transform='rotate(15 15 20)'/%3E%3Cpath d='M50,15 Q56,7 60,15 Q52,21 50,15' fill='%23FAFBF7' opacity='0.5' transform='rotate(-20 55 15)'/%3E%3Cpath d='M90,35 Q98,27 100,35 Q92,43 90,35' fill='%23A8E63A' opacity='0.4' transform='rotate(45 95 35)'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      animation: btnDriftLeaves 5s linear infinite;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.8;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(var(--z-lime-400-rgb), 0.5);
+
+      &::before { opacity: 1; }
+      &::after  { opacity: 1; }
+    }
+
+    // Keep text and icon above the animated layers
+    span,
+    mat-icon {
+      position: relative;
+      z-index: 3;
+    }
+
+    span {
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    mat-icon {
+      color: var(--z-lime-400);
+      filter: drop-shadow(0 0 2px rgba(var(--z-lime-400-rgb), 0.6));
+    }
+  }
+
+  &--lg {
+    padding: var(--space-md) var(--space-2xl);
+    font-size: var(--font-size-md);
+  }
+
+  &--sm {
+    padding: var(--space-2xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+
+  &--block {
+    width: 100%;
+  }
+}
+
+// Pill / badge
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--primary);
+  box-shadow: 0 0 0 1px var(--border-accent);
+
+  &--yellow {
+    background: var(--highlight-soft);
+    color: var(--z-yellow-600);
+    box-shadow: 0 0 0 1px rgba(var(--z-yellow-400-rgb), 0.4);
+  }
+
+  &--ink {
+    background: var(--z-ink-900);
+    color: var(--z-milky-50);
+    box-shadow: 0 0 0 1px var(--z-ink-700);
+  }
+
+  &--glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 0 1px var(--glass-border);
+  }
+}
+
+// Card base
+.card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 0 0 1px var(--border-color), var(--shadow-sm);
+  transition: var(--transition-standard);
+
+  &:hover {
+    box-shadow: 0 0 0 1px var(--border-accent), var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+// Section header
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-3xl);
+
+  &__eyebrow {
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+  }
+
+  &__title {
+    font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
+    margin-bottom: var(--space-md);
+  }
+
+  &__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--fg-secondary);
+    line-height: var(--leading-relaxed);
+  }
+}
+
+// Generic icon-circle (decorative backing for icons)
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-container-size);
+  height: var(--icon-container-size);
+  border-radius: var(--radius-circle);
+  background: var(--accent-soft);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+// Material Icons — inherit color and align nicely inline
+mat-icon {
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+  color: inherit;
+
+  // Sizes mapped to the old --icon-size-* tokens for consistency
+  &.icon-xs { font-size: 14px; width: 14px; height: 14px; }
+  &.icon-sm { font-size: 18px; width: 18px; height: 18px; }
+  &.icon-md { font-size: 24px; width: 24px; height: 24px; }
+  &.icon-lg { font-size: 32px; width: 32px; height: 32px; }
+  &.icon-xl { font-size: 48px; width: 48px; height: 48px; }
+}
+
+// Hide on small screens
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
+
+// ============================================================================
+// MOBILE OPTIMIZATIONS
+// ----------------------------------------------------------------------------
+// Consistent side padding across all sections, tighter vertical spacing,
+// and 44px minimum tap targets. Applied globally so every page benefits.
+// ============================================================================
+@media (max-width: 768px) {
+  :root {
+    // Single consistent side padding for ALL sections on mobile.
+    // 20px is the sweet spot: not too cramped, not too wasteful on 390px screens.
+    --content-padding: 20px;
+    // Tighter section gap so pages don't feel endless
+    --section-gap: var(--space-2xl);
+    // Smaller container gap for stacked layouts
+    --container-gap: var(--space-lg);
+  }
+
+  // Buttons: minimum 44px tap target height (Apple HIG / Material guideline)
+  .btn {
+    min-height: 44px;
+    &--sm { min-height: 36px; }
+    &--lg { min-height: 52px; }
+  }
+
+  // Pills: slightly larger tap area
+  .pill {
+    padding: var(--space-2xs) var(--space-md);
+  }
+
+  // Cards: tighter padding on mobile
+  .card {
+    padding: var(--space-lg);
+  }
+
+  // Section headers: smaller on mobile
+  .section-header {
+    margin-bottom: var(--space-xl);
+    &__title {
+      font-size: clamp(var(--font-size-xl), 6vw, var(--font-size-2xl));
+    }
+    &__subtitle {
+      font-size: var(--font-size-base);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --content-padding: 16px;
+    --section-gap: var(--space-xl);
+  }
+
+  // Even tighter cards on very small screens
+  .card {
+    padding: var(--space-md);
+  }
+}
+

@@ -1,0 +1,70 @@
+<section class="hero">
+  <!-- Background layer: drifting blobs + glass overlay -->
+  <div class="hero-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="grid-overlay"></span>
+    <span class="spark spark-1"></span>
+    <span class="spark spark-2"></span>
+    <span class="spark spark-3"></span>
+    <span class="spark spark-4"></span>
+    <span class="glass-overlay"></span>
+  </div>
+
+  <div class="hero-container">
+    <!-- LEFT: Brand logo with wind halo -->
+    <div class="hero-visual animate-fade-in-left">
+      <div class="brand-frame">
+        <div class="brand-halo brand-halo--lime" aria-hidden="true"></div>
+        <div class="brand-halo brand-halo--yellow" aria-hidden="true"></div>
+        <div class="brand-swirl" aria-hidden="true">
+          <span class="swirl-petal petal-1"></span>
+          <span class="swirl-petal petal-2"></span>
+          <span class="swirl-petal petal-3"></span>
+          <span class="swirl-petal petal-4"></span>
+          <span class="swirl-petal petal-5"></span>
+          <span class="swirl-petal petal-6"></span>
+        </div>
+        <img
+          src="logo.svg"
+          alt="Zarestia logo"
+          class="brand-img"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="brand-orbit-dot dot-a" aria-hidden="true"></span>
+        <span class="brand-orbit-dot dot-b" aria-hidden="true"></span>
+        <span class="brand-orbit-dot dot-c" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Copy block -->
+    <div class="hero-content">
+      <span class="hero-eyebrow animate-fade-in-up delay-1">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        {{ i18n.t('home.eyebrow') }}
+      </span>
+
+      <h1 class="hero-title animate-fade-in-up delay-2">
+        {{ i18n.t('home.title.line1') }}
+        <span class="text-gradient">{{ i18n.t('home.title.line2') }}</span>
+      </h1>
+
+      <p class="hero-subtitle animate-fade-in-up delay-3">
+        {{ i18n.t('home.subtitle') }}
+      </p>
+
+      <div class="hero-actions animate-fade-in-up delay-4">
+        <button type="button" class="btn btn--primary btn--lg" (click)="setTab('projects')">
+          <mat-icon class="icon-sm">view_list</mat-icon>
+          {{ i18n.t('home.cta.explore') }}
+        </button>
+        <button type="button" class="btn btn--outline btn--lg" (click)="setTab('support')">
+          <mat-icon class="icon-sm">favorite</mat-icon>
+          {{ i18n.t('home.cta.support') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

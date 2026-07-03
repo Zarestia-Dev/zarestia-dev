@@ -1,0 +1,177 @@
+<div class="page-support page-enter">
+
+  <!-- ============ HERO ============ -->
+  <section class="support-hero">
+    <div class="container">
+      <div class="support-hero__content">
+        <span class="pill support-hero__eyebrow animate-fade-in-up delay-1">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          {{ i18n.t('support.eyebrow') }}
+        </span>
+        <h1 class="support-hero__title animate-fade-in-up delay-2">
+          {{ i18n.t('support.title.line1') }}
+          <span class="text-gradient">{{ i18n.t('support.title.line2') }}</span>
+        </h1>
+        <p class="support-hero__subtitle animate-fade-in-up delay-3">
+          {{ i18n.t('support.subtitle') }}
+        </p>
+        <div class="support-hero__actions animate-fade-in-up delay-4">
+          <a href="https://github.com/sponsors/Hakanbaban53" target="_blank" rel="noopener noreferrer" class="btn btn--wind btn--lg">
+            <mat-icon class="icon-sm">favorite</mat-icon>
+            {{ i18n.t('support.cta.sponsor') }}
+          </a>
+          <a [href]="githubUrl()" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--lg">
+            <mat-icon class="icon-sm">code</mat-icon>
+            {{ i18n.t('support.cta.visitGithub') }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY SUPPORT ============ -->
+  <section class="why">
+    <div class="container">
+      <header class="section-header" appReveal>
+        <span class="pill section-header__eyebrow">{{ i18n.t('support.why.eyebrow') }}</span>
+        <h2 class="section-header__title">{{ i18n.t('support.why.title') }}</h2>
+        <p class="section-header__subtitle">{{ i18n.t('support.why.subtitle') }}</p>
+      </header>
+
+      <div class="why-grid">
+        @for (item of whyItems; track item.titleKey; let i = $index) {
+          <article
+            class="why-card"
+            [class]="'accent-' + item.accent"
+            appReveal
+            [appRevealDelay]="i * 80"
+          >
+            <span class="why-card__icon">
+              <mat-icon class="icon-md">{{ item.icon }}</mat-icon>
+            </span>
+            <h3 class="why-card__title">{{ i18n.t(item.titleKey) }}</h3>
+            <p class="why-card__desc">{{ i18n.t(item.descKey) }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PLATFORMS ============ -->
+  <section class="platforms">
+    <div class="container">
+      <header class="section-header" appReveal>
+        <span class="pill section-header__eyebrow">{{ i18n.t('support.platforms.eyebrow') }}</span>
+        <h2 class="section-header__title">{{ i18n.t('support.platforms.title') }}</h2>
+        <p class="section-header__subtitle">{{ i18n.t('support.platforms.subtitle') }}</p>
+      </header>
+
+      <div class="platforms-grid">
+        @for (platform of platforms; track platform.titleKey; let i = $index) {
+          <a
+            [href]="platform.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-card"
+            [class]="'accent-' + platform.accent"
+            appReveal
+            [appRevealDelay]="i * 80"
+          >
+            <span class="platform-card__icon">
+              <mat-icon class="icon-lg">{{ platform.icon }}</mat-icon>
+            </span>
+            <h3 class="platform-card__title">{{ i18n.t(platform.titleKey) }}</h3>
+            <p class="platform-card__desc">{{ i18n.t(platform.descKey) }}</p>
+            <footer class="platform-card__footer">
+              <span class="platform-card__fee">{{ i18n.t(platform.feeKey) }}</span>
+              <span class="platform-card__cta">
+                {{ i18n.t(platform.ctaKey) }}
+                <mat-icon class="icon-sm">chevron_right</mat-icon>
+              </span>
+            </footer>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTHER WAYS ============ -->
+  <section class="other-ways">
+    <div class="container">
+      <header class="section-header" appReveal>
+        <span class="pill section-header__eyebrow">{{ i18n.t('support.other.eyebrow') }}</span>
+        <h2 class="section-header__title">{{ i18n.t('support.other.title') }}</h2>
+        <p class="section-header__subtitle">{{ i18n.t('support.other.subtitle') }}</p>
+      </header>
+
+      <div class="other-grid">
+        @for (way of otherWays; track way.titleKey; let i = $index) {
+          <a
+            [href]="way.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="other-card"
+            [class]="'accent-' + way.accent"
+            appReveal
+            [appRevealDelay]="i * 80"
+          >
+            <span class="other-card__icon">
+              <mat-icon class="icon-md">{{ way.icon }}</mat-icon>
+            </span>
+            <div class="other-card__body">
+              <h3 class="other-card__title">{{ i18n.t(way.titleKey) }}</h3>
+              <p class="other-card__desc">{{ i18n.t(way.descKey) }}</p>
+            </div>
+            <span class="other-card__cta">
+              {{ i18n.t(way.ctaKey) }}
+              <mat-icon class="icon-sm">chevron_right</mat-icon>
+            </span>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THANK YOU ============ -->
+  <section class="thanks">
+    <div class="container">
+      <div class="thanks-card" appReveal="scale">
+        <div class="thanks-card__bg" aria-hidden="true">
+          <span class="thanks-blob thanks-blob-1"></span>
+          <span class="thanks-blob thanks-blob-2"></span>
+        </div>
+        <div class="thanks-card__content">
+          <span class="pill pill--glass">{{ i18n.t('support.thanks.eyebrow') }}</span>
+          <h2 class="thanks-card__title">{{ i18n.t('support.thanks.title') }}</h2>
+          <p class="thanks-card__subtitle">{{ i18n.t('support.thanks.subtitle') }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq">
+    <div class="container container-narrow">
+      <header class="section-header" appReveal>
+        <span class="pill section-header__eyebrow">{{ i18n.t('support.faq.eyebrow') }}</span>
+        <h2 class="section-header__title">{{ i18n.t('support.faq.title') }}</h2>
+      </header>
+
+      <div class="faq-list">
+        @for (item of faq; track item.qKey; let i = $index) {
+          <details class="faq-item" appReveal [open]="i === 0">
+            <summary>
+              <span>{{ i18n.t(item.qKey) }}</span>
+              <span class="faq-item__icon" aria-hidden="true">
+                <mat-icon class="icon-sm">expand_more</mat-icon>
+              </span>
+            </summary>
+            <div class="faq-item__body">
+              <p>{{ i18n.t(item.aKey) }}</p>
+            </div>
+          </details>
+        }
+      </div>
+    </div>
+  </section>
+</div>

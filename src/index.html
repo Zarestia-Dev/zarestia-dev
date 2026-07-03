@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" class="light">
+<head>
+  <meta charset="utf-8">
+  <title>Zarestia: Shaping the wind</title>
+  <meta name="description" content="Zarestia is an open-source organization building foundational software and intuitive utilities. Fast, reliable tools built to last.">
+  <meta name="theme-color" content="#FAFBF7">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon: SVG preferred, PNG fallbacks -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="logo-192.png">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Zarestia: Shaping the wind">
+  <meta property="og:description" content="Zarestia is an open-source organization building foundational software and intuitive utilities.">
+  <meta property="og:image" content="logo-512.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Zarestia: Shaping the wind">
+  <meta name="twitter:description" content="Zarestia is an open-source organization building foundational software and intuitive utilities.">
+  <meta name="twitter:image" content="logo-512.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <app-root>
+    <!-- Pre-hydration loading splash to avoid blank screen while Angular boots -->
+    <style>
+      app-root {
+        display: block;
+        min-height: 100vh;
+      }
+      .zarestia-boot-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #FAFBF7 0%, #ECF6D9 100%);
+        z-index: 9999;
+        transition: opacity .45s ease, visibility .45s ease;
+      }
+      .zarestia-boot-splash::after {
+        content: "";
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 4px solid rgba(45, 122, 61, 0.18);
+        border-top-color: #2D7A3D;
+        animation: z-boot-spin 0.85s linear infinite;
+      }
+      @keyframes z-boot-spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <div class="zarestia-boot-splash" id="zarestia-boot-splash"></div>
+    <script>
+      // Hide splash as soon as Angular hydrates the root
+      window.addEventListener('zarestia:booted', function () {
+        var s = document.getElementById('zarestia-boot-splash');
+        if (s) {
+          s.style.opacity = '0';
+          s.style.visibility = 'hidden';
+          setTimeout(function () { s.remove(); }, 500);
+        }
+      });
+    </script>
+  </app-root>
+</body>
+</html>

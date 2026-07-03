@@ -1,0 +1,138 @@
+<div class="page-profile page-enter">
+
+  <!-- ============ HERO ============ -->
+  <section class="profile-hero">
+    <div class="container">
+      <div class="profile-hero__content">
+        <span class="pill profile-hero__eyebrow animate-fade-in-up delay-1">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          {{ i18n.t('profile.eyebrow') }}
+        </span>
+        <h1 class="profile-hero__title animate-fade-in-up delay-2">
+          {{ i18n.t('profile.title.line1') }}
+          <span class="text-gradient">{{ i18n.t('profile.title.line2') }}</span>
+        </h1>
+        <p class="profile-hero__subtitle animate-fade-in-up delay-3">
+          {{ i18n.t('profile.subtitle') }}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOADING STATE ============ -->
+  @if (github.loading() && !github.profile()) {
+    <section class="profile-loading">
+      <div class="container">
+        <div class="loading-card">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p class="loading-text">{{ i18n.t('common.loading') }}</p>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ============ ERROR STATE ============ -->
+  @else if (github.error() && !github.profile()) {
+    <section class="profile-error">
+      <div class="container">
+        <div class="error-card">
+          <mat-icon class="icon-lg">cloud_off</mat-icon>
+          <p class="error-text">{{ i18n.t('common.loadError') }}</p>
+          <button type="button" class="btn btn--outline btn--sm" (click)="github.refresh()">
+            <mat-icon class="icon-sm">refresh</mat-icon>
+            {{ i18n.t('common.retry') }}
+          </button>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ============ PROFILE CARD ============ -->
+  @else if (github.profile(); as profile) {
+    <section class="profile-card-section">
+      <div class="container">
+        <div class="profile-card-grid">
+          <!-- LEFT: Avatar + identity card -->
+          <aside class="identity-card" appReveal="left">
+            <div class="identity-card__bg" aria-hidden="true"></div>
+            <div class="identity-card__avatar-wrap">
+              <img
+                [src]="profile.avatarUrl"
+                [alt]="profile.name"
+                class="identity-card__avatar"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="identity-card__halo" aria-hidden="true"></span>
+            </div>
+            <h2 class="identity-card__name">{{ profile.name }}</h2>
+            <a [href]="profile.htmlUrl" target="_blank" rel="noopener noreferrer" class="identity-card__handle">
+              @{{ profile.login }}
+            </a>
+            <p class="identity-card__bio">{{ profile.bio }}</p>
+
+            <dl class="identity-card__meta">
+              <div class="meta-row">
+                <dt><mat-icon class="icon-sm">event</mat-icon></dt>
+                <dd>{{ joinedDate() }}</dd>
+              </div>
+              @if (blogUrl()) {
+                <div class="meta-row">
+                  <dt><mat-icon class="icon-sm">link</mat-icon></dt>
+                  <dd><a [href]="blogUrl()!" target="_blank" rel="noopener noreferrer">{{ profile.blog }}</a></dd>
+                </div>
+              }
+              <div class="meta-row">
+                <dt><mat-icon class="icon-sm">code</mat-icon></dt>
+                <dd><a [href]="profile.htmlUrl" target="_blank" rel="noopener noreferrer">GitHub</a></dd>
+              </div>
+            </dl>
+
+            <a [href]="profile.htmlUrl" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--block identity-card__cta">
+              <mat-icon class="icon-sm">code</mat-icon>
+              {{ i18n.t('profile.cta.primary') }}
+            </a>
+          </aside>
+
+          <!-- RIGHT: Language breakdown -->
+          <div class="languages-grid" appReveal="right" [appRevealDelay]="80">
+            <header class="languages-header">
+              <span class="pill section-header__eyebrow">{{ i18n.t('profile.languages.eyebrow') }}</span>
+              <h2 class="languages-header__title">{{ i18n.t('profile.languages.title') }}</h2>
+              <p class="languages-header__subtitle">{{ i18n.t('profile.languages.subtitle') }}</p>
+            </header>
+
+            @if (chartLanguages().length > 0) {
+              <div class="lang-chart">
+                <div class="lang-chart__bar">
+                  @for (lang of chartLanguages(); track lang.name) {
+                    <span
+                      class="lang-chart__segment"
+                      [style.width.%]="lang.percent"
+                      [style.background]="lang.color"
+                      [title]="lang.name + ' ' + lang.percent.toFixed(1) + '%'"
+                    ></span>
+                  }
+                </div>
+                <div class="lang-chart__legend">
+                  @for (lang of chartLanguages(); track lang.name) {
+                    <div class="lang-legend-item">
+                      <span class="lang-legend-item__dot" [style.background]="lang.color"></span>
+                      <span class="lang-legend-item__name">{{ lang.name }}</span>
+                      <span class="lang-legend-item__pct">{{ lang.percent.toFixed(1) }}%</span>
+                      <span class="lang-legend-item__bytes">{{ github.formatBytes(lang.bytes) }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            } @else if (github.loading()) {
+              <div class="lang-loading">
+                <mat-spinner diameter="32"></mat-spinner>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+</div>

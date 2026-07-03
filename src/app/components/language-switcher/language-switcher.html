@@ -1,0 +1,39 @@
+<div class="lang-switcher" [class.open]="isOpen()">
+  <button
+    type="button"
+    class="lang-trigger"
+    (click)="toggle()"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-label]="i18n.t('common.lang.switch')"
+    [title]="i18n.t('common.lang.switch')"
+  >
+    <span class="lang-trigger__flag">{{ i18n.currentLanguage().flag }}</span>
+    <span class="lang-trigger__code">{{ localeCode() }}</span>
+    <span class="lang-trigger__chevron" [class.rotated]="isOpen()">
+      <mat-icon class="icon-sm">expand_more</mat-icon>
+    </span>
+  </button>
+
+  @if (isOpen()) {
+    <ul class="lang-menu" role="listbox">
+      @for (lang of i18n.languages; track lang.code) {
+        <li role="option" [attr.aria-selected]="i18n.locale() === lang.code">
+          <button
+            type="button"
+            class="lang-option"
+            [class.active]="i18n.locale() === lang.code"
+            (click)="select(lang.code)"
+          >
+            <span class="lang-option__flag">{{ lang.flag }}</span>
+            <span class="lang-option__label">{{ lang.label }}</span>
+            @if (i18n.locale() === lang.code) {
+              <span class="lang-option__check" aria-hidden="true">
+                <mat-icon class="icon-sm">check</mat-icon>
+              </span>
+            }
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

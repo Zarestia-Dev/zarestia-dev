@@ -1,0 +1,85 @@
+<footer class="footer">
+  <!-- Top: brand + nav + socials -->
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="logo.svg" alt="Zarestia logo" />
+          <span>{{ i18n.t('brand.name') }}</span>
+        </div>
+        <p class="footer-tagline">{{ i18n.t('footer.tagline') }}</p>
+      </div>
+
+      <nav class="footer-col" aria-label="Site">
+        <h4 class="footer-heading">{{ i18n.t('footer.navigate') }}</h4>
+        <ul class="footer-list">
+          @for (link of navLinks; track link.tab) {
+            <li>
+              <button
+                type="button"
+                class="footer-link"
+                (click)="setTab(link.tab)"
+                (keydown.enter)="setTab(link.tab)"
+                tabindex="0"
+              >
+                {{ i18n.t(link.labelKey) }}
+              </button>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Community">
+        <h4 class="footer-heading">{{ i18n.t('footer.connect') }}</h4>
+        <ul class="footer-list">
+          @for (link of socialLinks; track link.label) {
+            <li>
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link footer-link--social"
+              >
+                <mat-icon class="icon-sm">{{ link.icon }}</mat-icon>
+                <span>{{ link.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="footer-col footer-newsletter">
+        <h4 class="footer-heading">{{ i18n.t('footer.newsletter') }}</h4>
+        <p class="footer-newsletter-text">{{ i18n.t('footer.newsletter.text') }}</p>
+        <form class="newsletter-form" (submit)="$event.preventDefault()">
+          <input
+            type="email"
+            [attr.placeholder]="i18n.t('footer.emailPlaceholder')"
+            [attr.aria-label]="i18n.t('footer.emailPlaceholder')"
+            class="newsletter-input"
+          />
+          <button type="submit" class="btn btn--primary btn--sm">
+            {{ i18n.t('footer.subscribe') }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom: copyright + legal -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <span class="footer-copyright" [innerHTML]="i18n.t('footer.copyright', { year: currentYear })"></span>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <span class="footer-credit">
+          {{ i18n.t('footer.credit') }}
+        </span>
+      </div>
+      <div class="footer-bottom-right">
+        <span class="footer-status">
+          <span class="footer-status-dot" aria-hidden="true"></span>
+          {{ i18n.t('footer.status') }}
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

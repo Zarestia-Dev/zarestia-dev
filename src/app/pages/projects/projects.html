@@ -1,0 +1,185 @@
+<div class="page-projects page-enter">
+
+  <!-- ============ HEADER ============ -->
+  <section class="projects-hero">
+    <div class="container">
+      <span class="pill projects-hero__eyebrow animate-fade-in-up delay-1">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        {{ i18n.t('projects.eyebrow') }}
+      </span>
+      <h1 class="projects-hero__title animate-fade-in-up delay-2">
+        {{ i18n.t('projects.title.line1') }}
+        <span class="text-gradient">{{ i18n.t('projects.title.line2') }}</span>
+      </h1>
+      <p class="projects-hero__subtitle animate-fade-in-up delay-3">
+        {{ i18n.t('projects.subtitle') }}
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ LOADING STATE ============ -->
+  @if (github.loading() && github.repos().length === 0) {
+    <section class="projects-loading">
+      <div class="container">
+        <div class="loading-grid">
+          @for (i of [1, 2, 3]; track i) {
+            <div class="skeleton-card">
+              <div class="skeleton-card__header">
+                <div class="skeleton skeleton--icon"></div>
+                <div class="skeleton skeleton--title"></div>
+              </div>
+              <div class="skeleton skeleton--line"></div>
+              <div class="skeleton skeleton--line skeleton--short"></div>
+              <div class="skeleton-card__footer">
+                <div class="skeleton skeleton--tag"></div>
+                <div class="skeleton skeleton--tag"></div>
+                <div class="skeleton skeleton--tag"></div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="loading-indicator">
+          <mat-spinner diameter="32"></mat-spinner>
+          <span>{{ i18n.t('common.loading') }}</span>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ============ ERROR STATE ============ -->
+  @else if (github.error() && github.repos().length === 0) {
+    <section class="projects-error">
+      <div class="container">
+        <div class="error-card">
+          <mat-icon class="icon-xl">cloud_off</mat-icon>
+          <p class="error-text">{{ i18n.t('common.loadError') }}</p>
+          <button type="button" class="btn btn--outline btn--sm" (click)="github.refresh()">
+            <mat-icon class="icon-sm">refresh</mat-icon>
+            {{ i18n.t('common.retry') }}
+          </button>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ============ TOOLBAR + GRID ============ -->
+  @else {
+    <section class="projects-toolbar">
+      <div class="container">
+        <div class="toolbar">
+          <div class="toolbar-filters" role="tablist" [attr.aria-label]="i18n.t('projects.eyebrow')">
+            @for (filter of filters; track filter.value) {
+              <button
+                type="button"
+                class="filter-chip"
+                [class.active]="activeFilter() === filter.value"
+                role="tab"
+                [attr.aria-selected]="activeFilter() === filter.value"
+                (click)="setFilter(filter.value)"
+              >
+                {{ i18n.t(filter.labelKey) }}
+              </button>
+            }
+          </div>
+
+          <div class="toolbar-sort">
+            <span class="toolbar-sort__label">{{ i18n.t('projects.sort.label') }}</span>
+            <div class="sort-group" role="group" [attr.aria-label]="i18n.t('projects.sort.label')">
+              @for (opt of sortOptions; track opt.value) {
+                <button
+                  type="button"
+                  class="sort-btn"
+                  [class.active]="sortBy() === opt.value"
+                  (click)="setSort(opt.value)"
+                >{{ i18n.t(opt.labelKey) }}</button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects-grid-section">
+      <div class="container">
+        @if (filteredRepos().length > 0) {
+          <div class="projects-grid">
+            @for (project of filteredRepos(); track project.name; let i = $index) {
+              <article
+                class="proj-card"
+                [class]="accentClass(project)"
+                appReveal
+                [appRevealDelay]="(i % 6) * 60"
+              >
+                <div class="proj-card__bar" aria-hidden="true"></div>
+
+                <header class="proj-card__head">
+                  <span class="proj-card__icon">
+                    <mat-icon class="icon-md">view_list</mat-icon>
+                  </span>
+                  <div class="proj-card__title-row">
+                    <h3 class="proj-card__name">{{ project.name }}</h3>
+                    <span class="proj-card__status" [class]="'status--' + (project.isArchived ? 'archived' : (project.isFork ? 'fork' : 'active'))">
+                      {{ i18n.t(statusKey(project)) }}
+                    </span>
+                  </div>
+                </header>
+
+                <p class="proj-card__tagline">{{ project.description || '' }}</p>
+
+                @if (project.topics.length > 0) {
+                  <div class="proj-card__tags">
+                    @for (tag of project.topics.slice(0, 5); track tag) {
+                      <span class="tag">{{ tag }}</span>
+                    }
+                  </div>
+                }
+
+                <footer class="proj-card__footer">
+                  <div class="proj-card__stats">
+                    <span class="proj-stat">
+                      <mat-icon class="icon-sm">star</mat-icon>
+                      {{ github.formatCount(project.stars) }}
+                    </span>
+                    <span class="proj-stat">
+                      <mat-icon class="icon-sm">call_split</mat-icon>
+                      {{ project.forks }}
+                    </span>
+                    @if (project.primaryLanguage) {
+                      <span class="proj-stat">
+                        <span class="lang-dot" [style.background]="project.primaryLanguageColor || 'currentColor'"></span>
+                        {{ project.primaryLanguage }}
+                      </span>
+                    }
+                  </div>
+                  <span class="proj-stat proj-stat--muted">
+                    <mat-icon class="icon-sm">event</mat-icon>
+                    {{ github.formatDate(project.pushedAt) }}
+                  </span>
+                </footer>
+
+                <div class="proj-card__actions">
+                  <a [href]="project.url" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm">
+                    <mat-icon class="icon-sm">code</mat-icon>
+                    {{ i18n.t('projects.viewSource') }}
+                  </a>
+                  @if (project.homepageUrl) {
+                    <a [href]="project.homepageUrl" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">
+                      <mat-icon class="icon-sm">description</mat-icon>
+                      {{ i18n.t('projects.viewDocs') }}
+                    </a>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <mat-icon class="icon-xl">search</mat-icon>
+            <h3>{{ i18n.t('projects.empty.title') }}</h3>
+            <p>{{ i18n.t('projects.empty.desc') }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>

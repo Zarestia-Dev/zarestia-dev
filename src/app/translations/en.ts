@@ -1,0 +1,199 @@
+// ============================================================================
+// ZARESTIA: ENGLISH TRANSLATIONS
+// ----------------------------------------------------------------------------
+// Flat key paths (e.g. 'nav.home') indexed via t('nav.home').
+// Organizational voice: "Zarestia" / "we", not "I" / personal.
+// ============================================================================
+
+export const en = {
+  // ---- Brand ----
+  'brand.name': 'Zarestia',
+  'brand.tagline': 'Shaping the wind',
+  'brand.description':
+    'Zarestia is an open-source organization building foundational software and intuitive utilities. We ship tools that are fast, reliable, and a pleasure to use.',
+
+  // ---- Navigation ----
+  'nav.home': 'Home',
+  'nav.about': 'About',
+  'nav.projects': 'Projects',
+  'nav.profile': 'Profile',
+  'nav.support': 'Support',
+  'nav.theme': 'Theme',
+  'nav.menu': 'Menu',
+
+  // ---- Home / Hero ----
+  'home.eyebrow': 'Shaping the wind',
+  'home.title.line1': 'Foundational software,',
+  'home.title.line2': 'intuitive utilities.',
+  'home.subtitle':
+    'Zarestia is an open-source organization building foundational software and intuitive utilities. We ship tools that are fast, reliable, and built to last.',
+  'home.cta.explore': 'Explore Projects',
+  'home.cta.support': 'Support our work',
+  'home.scroll': 'Featured Projects',
+  'home.stat.repos': 'Public repos',
+  'home.stat.repos.sub': 'across 11 languages',
+  'home.stat.stars': 'GitHub stars',
+  'home.stat.stars.sub': 'on featured projects',
+  'home.stat.followers': 'GitHub followers',
+  'home.stat.followers.sub': 'and counting',
+  'home.stat.years': 'Years coding',
+  'home.stat.years.sub': 'publicly on GitHub',
+
+  // ---- Home / CTA ----
+  'home.cta.section.eyebrow': 'Get involved',
+  'home.cta.section.title': 'Want to support the wind?',
+  'home.cta.section.subtitle':
+    'If any of our projects saved you time, consider starring the repo, sharing it with a friend, or supporting our work. Every gesture keeps the wind moving.',
+
+  // ---- About ----
+  'about.eyebrow': 'About Zarestia',
+  'about.title.line1': 'We shape the wind,',
+  'about.title.line2': 'not the other way around.',
+  'about.p1':
+    'Zarestia is an open-source organization. We build foundational software and intuitive utilities: tools that sit quietly under your workflow, do their job, and get out of the way.',
+  'about.p2':
+    'The name comes from a wind spirit, borrowed purely for the visual language. The milky-white hair, the lime-green accents, the disciplined black-and-green palette. We liked how she looked, and we liked what the wind represents: purposeful, invisible when it works, impossible to ignore when it doesn\'t.',
+  'about.readSource': 'Read the source',
+
+  // About / Mission
+  'about.mission.eyebrow': 'Our mission',
+  'about.mission.title.line1': 'Foundational software',
+  'about.mission.title.line2': ' and intuitive utilities.',
+  'about.mission.body1':
+    'Zarestia builds foundational software and intuitive utilities. By foundational, we mean the kind of tool that runs underneath other things: configuration managers, CLI scaffolds, system utilities. By intuitive, we mean tools that explain themselves, with documentation written before code ships and error messages written for humans.',
+  'about.mission.body2':
+    'We are an organization, not a single person and not a startup. We take no venture capital, run no ads, and chase no growth metrics. Projects grow because they are good and because people recommend them. That is the only kind of growth we trust.',
+  'about.mission.body3':
+    'The name Zarestia comes from a wind spirit character. We borrowed her name and her look for the visual language alone: the milky-white hair, the lime-green spirit accents, the disciplined black-and-green kimono. Not her story, not her lore. Just the aesthetic. Everything else is our own.',
+
+  // ---- Projects ----
+  'projects.eyebrow': 'Open-source projects',
+  'projects.title.line1': 'Everything we build,',
+  'projects.title.line2': 'all in one place.',
+  'projects.subtitle':
+    'These are the repositories under the Zarestia organization. Real stars, real forks, real commit history, pulled live from GitHub at build time.',
+  'projects.filter.all': 'All',
+  'projects.filter.active': 'Active',
+  'projects.filter.archived': 'Archived',
+  'projects.sort.label': 'Sort by',
+  'projects.sort.stars': 'Stars',
+  'projects.sort.name': 'Name',
+  'projects.sort.recent': 'Recent',
+  'projects.status.active': 'Active',
+  'projects.status.archived': 'Archived',
+  'projects.status.fork': 'Fork',
+  'projects.viewSource': 'View source',
+  'projects.viewDocs': 'Visit site',
+  'projects.empty.title': 'No projects match this filter',
+  'projects.empty.desc': 'Try a different filter, or browse our full GitHub profile.',
+
+  // ---- Profile ----
+  'profile.eyebrow': 'GitHub profile',
+  'profile.title.line1': 'The maintainer behind',
+  'profile.title.line2': 'the wind spirit.',
+  'profile.subtitle':
+    'Zarestia is maintained by Hakan İSMAİL. This page pulls the real GitHub profile and language breakdown at build time.',
+  'profile.cta.primary': 'Follow on GitHub',
+  'profile.languages.eyebrow': 'Language breakdown',
+  'profile.languages.title': 'What we write in.',
+  'profile.languages.subtitle':
+    'Aggregated bytes of code across our featured repositories. The percentages reflect actual code volume, not commits.',
+
+  // ---- Support ----
+  'support.eyebrow': 'Support our work',
+  'support.title.line1': 'If our projects helped,',
+  'support.title.line2': "we'd be grateful.",
+  'support.subtitle':
+    'Zarestia is an open-source organization run on nights and weekends. We take no VC money, run no ads, and never will. If any of our projects saved you time, the kindest thing you can do is support our work. Every contribution funds the next commit.',
+  'support.cta.sponsor': 'Sponsor us',
+  'support.cta.visitGithub': 'Visit our GitHub',
+
+  'support.why.eyebrow': 'Why support?',
+  'support.why.title': 'What your support actually pays for.',
+  'support.why.subtitle':
+    'We are transparent about where every dollar goes. There is no overhead, no marketing budget, no growth team. Just infrastructure, fuel, and time.',
+  'support.why.item1.title': 'Hosting & domains',
+  'support.why.item1.desc': 'Domain renewals, DNS, static site hosting, the occasional VPS for testing. Small in absolute terms, real in monthly terms.',
+  'support.why.item2.title': 'Coffee & late-night fuel',
+  'support.why.item2.desc': 'Most of our work happens between 9pm and 2am. Coffee is non-negotiable. Your support keeps the kettle warm.',
+  'support.why.item4.title': 'Time, the most expensive thing',
+  'support.why.item4.desc': 'The real cost of open source is hours. Every dollar of sponsorship buys us more time to spend on bug fixes, docs, and new projects instead of paid client work.',
+
+  'support.platforms.eyebrow': 'Pick a platform',
+  'support.platforms.title': 'Four ways to send the wind.',
+  'support.platforms.subtitle':
+    'All four accept one-time or recurring contributions. Pick whichever feels easiest. They all reach us, and we appreciate every single one.',
+  'support.platforms.sponsors.title': 'GitHub Sponsors',
+  'support.platforms.sponsors.desc': 'Our preferred platform. Recurring or one-time. No platform fees on the first year, and GitHub matches up to $5k.',
+  'support.platforms.sponsors.fee': '0% platform fee',
+  'support.platforms.sponsors.cta': 'Sponsor on GitHub',
+  'support.platforms.kofi.title': 'Ko-fi',
+  'support.platforms.kofi.desc': 'Buy us a coffee, literally. One-time support, no commitment, no signup required. The friendliest way to say thanks.',
+  'support.platforms.kofi.fee': 'No signup required',
+  'support.platforms.kofi.cta': 'Buy us a coffee',
+  'support.platforms.bmc.title': 'Buy Me a Coffee',
+  'support.platforms.bmc.desc': 'Another one-time option, slightly different UX. Same idea: throw a few dollars, get a virtual coffee, no strings attached.',
+  'support.platforms.bmc.fee': '5% platform fee',
+  'support.platforms.bmc.cta': 'Visit BMC',
+  'support.platforms.paypal.title': 'PayPal',
+  'support.platforms.paypal.desc': 'For those who prefer PayPal. One-time only, no minimum. Useful if you already have a balance sitting there.',
+  'support.platforms.paypal.fee': 'Standard PayPal fees',
+  'support.platforms.paypal.cta': 'Send via PayPal',
+
+  'support.other.eyebrow': "Can't spare money? That's fine.",
+  'support.other.title': 'Three free ways to help.',
+  'support.other.subtitle':
+    'Money is the loudest signal, but it is not the only one. These cost you nothing and mean just as much.',
+  'support.other.star.title': 'Star a repository',
+  'support.other.star.desc': 'A star takes two seconds and helps other people discover the project. It also tells us which repos are worth investing more time in.',
+  'support.other.star.cta': 'Star our repos',
+  'support.other.share.title': 'Tell a friend',
+  'support.other.share.desc': 'If a project solved a problem for you, mention it to someone who would benefit. Word of mouth is the only marketing we trust.',
+  'support.other.share.cta': 'Share on X',
+  'support.other.issue.title': 'Open an issue',
+  'support.other.issue.desc': 'Found a bug? Have a feature request? Open an issue. We read every single one, and good bug reports are worth their weight in gold.',
+  'support.other.issue.cta': 'Open an issue',
+
+  'support.thanks.eyebrow': 'Thank you',
+  'support.thanks.title': 'Every star, every coffee, every kind word.',
+  'support.thanks.subtitle':
+    'If you sponsor us, your name shows up on our GitHub Sponsors dashboard and we will silently appreciate you forever. The wind moves because of you.',
+
+  'support.faq.eyebrow': 'Questions, answered',
+  'support.faq.title': 'Sponsorship FAQ.',
+  'support.faq.q1': 'Is my donation tax-deductible?',
+  'support.faq.a1': 'No. We are an open-source organization, not a registered non-profit. Donations through GitHub Sponsors may be deductible in some jurisdictions; consult a tax advisor. Honestly, just treat it as buying a stranger a coffee.',
+  'support.faq.q2': 'Do I get any perks for sponsoring?',
+  'support.faq.a2': 'Honest answer: not really. No private Discord, no priority support, no early access. You get our sincere gratitude and your name on our GitHub Sponsors list. If we ever add perks, it will be small things like stickers or a credits line in a README.',
+  'support.faq.q3': 'What happens if you stop maintaining a project?',
+  'support.faq.a3': 'Every repo has a public archive policy. If we go quiet for 6+ months on a project, we will either find a new maintainer to hand it off to or formally archive it. Your sponsorship never funds a single project. It funds the organization, which works on whatever is most useful.',
+  'support.faq.q4': 'Can my company sponsor Zarestia?',
+  'support.faq.a4': 'Yes. GitHub Sponsors supports company sponsors. If your company uses any of our projects in production and wants formal support, we can talk about a sponsorship arrangement. Email us at the address on our GitHub profile.',
+  'support.faq.q5': "Why don't you take VC money?",
+  'support.faq.a5': 'Because we are an open-source organization, not a startup. Venture capital demands growth at any cost, and "any cost" usually means the things that make open source worth doing. We would rather grow slowly on sponsor revenue and keep our values intact.',
+
+  // ---- Footer ----
+  'footer.tagline':
+    'Zarestia is an open-source organization building foundational software and intuitive utilities. Shaping the wind, one commit at a time.',
+  'footer.navigate': 'Navigate',
+  'footer.connect': 'Connect',
+  'footer.newsletter': 'Wind Dispatch',
+  'footer.newsletter.text':
+    'Occasional notes from us: new releases, behind-the-scenes, the occasional haiku. No tracking, unsubscribe anytime.',
+  'footer.subscribe': 'Subscribe',
+  'footer.emailPlaceholder': 'you@somewhere.dev',
+  'footer.copyright': '© {{year}} Zarestia. Released under MIT & Apache-2.0.',
+  'footer.credit': 'Crafted with the wind spirit\'s blessing. Mascot by',
+  'footer.status': 'All systems operational',
+  'footer.credit.link': 'Re:Zero Wiki',
+
+  // ---- Common ----
+  'common.lang.en': 'English',
+  'common.lang.tr': 'Türkçe',
+  'common.lang.switch': 'Switch language',
+  'common.theme.light': 'Light',
+  'common.theme.dark': 'Dark',
+  'common.theme.system': 'System',
+} as const;
+
+export type TranslationKey = keyof typeof en;

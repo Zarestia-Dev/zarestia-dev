@@ -1,0 +1,134 @@
+@use '../../../styles/mixins' as *;
+
+:host {
+  position: relative;
+  display: inline-flex;
+}
+
+.lang-switcher {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.lang-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-sm);
+  min-height: 40px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--fg-secondary);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 1px var(--border-color);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition-fast);
+
+  &:hover {
+    color: var(--fg-primary);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+
+  &__flag {
+    font-size: var(--font-size-md);
+    line-height: 1;
+  }
+
+  &__code {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.04em;
+  }
+
+  &__chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg-muted);
+    transition: transform var(--transition-standard);
+
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + var(--space-2xs));
+  right: 0;
+  min-width: 180px;
+  padding: var(--space-2xs);
+  background: var(--bg-elevated);
+
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 1px var(--border-color), var(--shadow-lg);
+  list-style: none;
+  margin: 0;
+  z-index: var(--z-dropdown);
+
+  // Entrance animation
+  animation: z-fade-in-down 0.18s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  li {
+    list-style: none;
+  }
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--weight-medium);
+  color: var(--fg-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--accent-soft);
+    color: var(--fg-primary);
+  }
+
+  &.active {
+    color: var(--primary);
+    background: var(--accent-soft);
+  }
+
+  &__flag {
+    font-size: var(--font-size-md);
+    line-height: 1;
+  }
+
+  &__label {
+    flex: 1;
+  }
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+}
+
+// Compact the switcher on small screens
+@media (max-width: 480px) {
+  .lang-trigger {
+    &__code {
+      display: none;
+    }
+  }
+}

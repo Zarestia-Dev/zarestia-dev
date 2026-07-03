@@ -1,0 +1,24 @@
+<div class="app-container" [class.page-loaded]="booted()">
+  <app-navbar></app-navbar>
+
+  <main class="main-content" id="main-content">
+    @switch (tabService.currentTab()) {
+      @case ('home')     { <app-home></app-home> }
+      @case ('about')    { <app-about></app-about> }
+      @case ('projects') { <app-projects></app-projects> }
+      @case ('profile')  { <app-profile></app-profile> }
+      @case ('support')  { <app-support></app-support> }
+    }
+
+    @if (booted()) {
+      <app-footer></app-footer>
+    }
+  </main>
+</div>
+
+<!-- Decorative wind streaks in the background, fixed behind everything -->
+<div class="wind-streaks" aria-hidden="true">
+  <span class="streak streak-1"></span>
+  <span class="streak streak-2"></span>
+  <span class="streak streak-3"></span>
+</div>

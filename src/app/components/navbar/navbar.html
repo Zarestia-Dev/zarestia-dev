@@ -1,0 +1,95 @@
+<nav class="navbar" [class.scrolled]="isScrolled()">
+  <div class="navbar-container">
+    <!-- Brand -->
+    <a
+      class="brand"
+      (click)="setTab('home')"
+      (keydown.enter)="setTab('home')"
+      tabindex="0"
+      [attr.aria-label]="i18n.t('brand.name')"
+    >
+      <span class="brand-mark">
+        <img src="logo.svg" alt="" class="brand-img" />
+        <span class="brand-mark__halo" aria-hidden="true"></span>
+      </span>
+      <span class="brand-text">{{ i18n.t('brand.name') }}</span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <div class="nav-links" role="navigation" aria-label="Primary">
+      @for (link of navLinks; track link.tab) {
+        <button
+          type="button"
+          class="nav-link"
+          [class.active]="tabService.currentTab() === link.tab"
+          (click)="setTab(link.tab)"
+          [attr.aria-current]="tabService.currentTab() === link.tab ? 'page' : null"
+        >
+          <mat-icon class="icon-sm">{{ link.icon }}</mat-icon>
+          <span>{{ i18n.t(link.labelKey) }}</span>
+        </button>
+      }
+    </div>
+
+    <!-- Desktop right cluster: language + theme -->
+    <div class="nav-actions">
+      <app-language-switcher></app-language-switcher>
+
+      <button
+        type="button"
+        class="theme-toggle"
+        (click)="cycleTheme()"
+        [attr.aria-label]="i18n.t('nav.theme') + ': ' + themeLabel()"
+        [title]="i18n.t('nav.theme') + ': ' + themeLabel()"
+      >
+        <mat-icon class="icon-sm">{{ themeIcon() }}</mat-icon>
+        <span class="theme-toggle__label hide-mobile">{{ themeLabel() }}</span>
+      </button>
+
+      <!-- Mobile hamburger -->
+      <button
+        type="button"
+        class="hamburger"
+        [class.open]="isMobileMenuOpen()"
+        (click)="toggleMobileMenu()"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        [attr.aria-label]="i18n.t('nav.menu')"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile dropdown menu -->
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen()">
+    <!-- Mobile-only: language + theme controls at top of menu -->
+    <div class="mobile-controls">
+      <app-language-switcher></app-language-switcher>
+      <button
+        type="button"
+        class="mobile-theme"
+        (click)="cycleTheme()"
+      >
+        <mat-icon class="icon-md">{{ themeIcon() }}</mat-icon>
+        <span>{{ i18n.t('nav.theme') }}: {{ themeLabel() }}</span>
+      </button>
+    </div>
+
+    @for (link of navLinks; track link.tab) {
+      <button
+        type="button"
+        class="mobile-link"
+        [class.active]="tabService.currentTab() === link.tab"
+        (click)="setTab(link.tab)"
+      >
+        <mat-icon class="icon-md">{{ link.icon }}</mat-icon>
+        <span class="mobile-link__text">
+          <span class="mobile-link__label">{{ i18n.t(link.labelKey) }}</span>
+          <span class="mobile-link__desc">{{ i18n.t(link.descriptionKey) }}</span>
+        </span>
+      </button>
+    }
+  </div>
+</nav>
