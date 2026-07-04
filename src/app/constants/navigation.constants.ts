@@ -46,12 +46,6 @@ export const NAV_LINKS: NavLink[] = [
     descriptionKey: 'profile.eyebrow',
   },
   {
-    labelKey: 'nav.playground',
-    tab: 'playground',
-    icon: 'sports_esports',
-    descriptionKey: 'playground.eyebrow',
-  },
-  {
     labelKey: 'nav.support',
     tab: 'support',
     icon: 'favorite',

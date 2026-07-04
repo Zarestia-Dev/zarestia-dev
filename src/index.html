@@ -5,7 +5,7 @@
   <title>Zarestia: Shaping the wind</title>
   <meta name="description" content="Zarestia is an open-source organization building foundational software and intuitive utilities. Fast, reliable tools built to last.">
   <meta name="theme-color" content="#FAFBF7">
-  <base href="/">
+  <base href="/zarestia/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon: SVG preferred, PNG fallbacks -->
@@ -31,6 +31,48 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <!-- Pre-hydration loading splash to avoid blank screen while Angular boots -->
+    <style>
+      app-root {
+        display: block;
+        min-height: 100vh;
+      }
+      .zarestia-boot-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #FAFBF7 0%, #ECF6D9 100%);
+        z-index: 9999;
+        transition: opacity .45s ease, visibility .45s ease;
+      }
+      .zarestia-boot-splash::after {
+        content: "";
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 4px solid rgba(45, 122, 61, 0.18);
+        border-top-color: #2D7A3D;
+        animation: z-boot-spin 0.85s linear infinite;
+      }
+      @keyframes z-boot-spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <div class="zarestia-boot-splash" id="zarestia-boot-splash"></div>
+    <script>
+      // Hide splash as soon as Angular hydrates the root
+      window.addEventListener('zarestia:booted', function () {
+        var s = document.getElementById('zarestia-boot-splash');
+        if (s) {
+          s.style.opacity = '0';
+          s.style.visibility = 'hidden';
+          setTimeout(function () { s.remove(); }, 500);
+        }
+      });
+    </script>
+  </app-root>
 </body>
 </html>

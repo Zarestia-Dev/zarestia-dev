@@ -12,7 +12,6 @@ import { About } from './pages/about/about';
 import { Projects } from './pages/projects/projects';
 import { Profile } from './pages/profile/profile';
 import { Support } from './pages/support/support';
-import { Playground } from './pages/playground/playground';
 import { TabService } from './services/tab.service';
 import { TranslationService } from './services/translation.service';
 
@@ -24,7 +23,7 @@ import { TranslationService } from './services/translation.service';
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, Footer, Home, About, Projects, Profile, Support, Playground],
+  imports: [Navbar, Footer, Home, About, Projects, Profile, Support],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +40,7 @@ export class App {
       window.addEventListener('popstate', () => {
         this.tabService.syncFromUrl();
       });
+      window.dispatchEvent(new Event('zarestia:booted'));
       requestAnimationFrame(() => this.booted.set(true));
     });
   }
