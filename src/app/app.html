@@ -3,11 +3,12 @@
 
   <main class="main-content" id="main-content">
     @switch (tabService.currentTab()) {
-      @case ('home')     { <app-home></app-home> }
-      @case ('about')    { <app-about></app-about> }
-      @case ('projects') { <app-projects></app-projects> }
-      @case ('profile')  { <app-profile></app-profile> }
-      @case ('support')  { <app-support></app-support> }
+      @case ('home')        { <app-home></app-home> }
+      @case ('about')       { <app-about></app-about> }
+      @case ('projects')    { <app-projects></app-projects> }
+      @case ('profile')     { <app-profile></app-profile> }
+      @case ('playground')  { <app-playground></app-playground> }
+      @case ('support')     { <app-support></app-support> }
     }
 
     @if (booted()) {

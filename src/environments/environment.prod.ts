@@ -13,4 +13,11 @@ export const environment = {
   githubUsername: 'Hakanbaban53',
   // Organization GitHub name (for repos + language breakdown)
   githubOrgName: 'Zarestia-Dev',
+  /**
+   * GitHub OAuth App Client ID — SAFE to expose client-side.
+   * Register at: https://github.com/settings/developers → "OAuth Apps" → "New OAuth App"
+   * The Client SECRET is configured ONLY on the Cloudflare Worker as
+   * GITHUB_OAUTH_CLIENT_SECRET — never in this file.
+   */
+  githubOAuthClientId: 'Ov23liFl45fIzAHEbOnA',
 };

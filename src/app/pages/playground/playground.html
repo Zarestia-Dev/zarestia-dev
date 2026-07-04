@@ -1,0 +1,167 @@
+<div class="page-playground page-enter">
+
+  <!-- ============================================================= -->
+  <!-- VIEW: HUB (no game selected)                                  -->
+  <!-- ============================================================= -->
+  @if (!tabService.playgroundGameId()) {
+    <!-- ============ HEADER ============ -->
+    <section class="playground-hero">
+      <div class="container">
+        <span class="pill playground-hero__eyebrow animate-fade-in-up delay-1">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          {{ i18n.t('playground.eyebrow') }}
+        </span>
+        <h1 class="playground-hero__title animate-fade-in-up delay-2">
+          {{ i18n.t('playground.title.line1') }}
+          <span class="text-gradient">{{ i18n.t('playground.title.line2') }}</span>
+        </h1>
+        <p class="playground-hero__subtitle animate-fade-in-up delay-3">
+          {{ i18n.t('playground.subtitle') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ GAME GRID ============ -->
+    <section class="playground-grid-section">
+      <div class="container">
+        @if (games.length > 0) {
+          <div class="playground-grid">
+            @for (game of games; track game.id; let i = $index) {
+              <article
+                class="game-card"
+                [class]="accentClass(game.accent)"
+                appReveal
+                [appRevealDelay]="(i % 6) * 60"
+              >
+                <div class="game-card__bar" aria-hidden="true"></div>
+
+                <!-- Thumbnail (CSS-based, sprite-swap-ready) -->
+                <div class="game-card__thumb" [class]="accentClass(game.accent)">
+                  <span class="game-card__thumb-icon">
+                    <mat-icon class="icon-xl">{{ game.thumbnailIcon }}</mat-icon>
+                  </span>
+                  @if (game.badgeIcon) {
+                    <span class="game-card__badge">
+                      <mat-icon class="icon-sm">{{ game.badgeIcon }}</mat-icon>
+                    </span>
+                  }
+                </div>
+
+                <header class="game-card__head">
+                  <h3 class="game-card__title">{{ title(game) }}</h3>
+                  <span class="game-card__kind">{{ i18n.t('playground.card.badge') }}</span>
+                </header>
+
+                <p class="game-card__desc">{{ description(game) }}</p>
+
+                <footer class="game-card__footer">
+                  <button
+                    type="button"
+                    class="btn btn--primary btn--sm"
+                    (click)="playGame(game)"
+                  >
+                    <mat-icon class="icon-sm">play_arrow</mat-icon>
+                    {{ i18n.t('playground.card.play') }}
+                  </button>
+                  <a
+                    [href]="game.sourceRepoUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--ghost btn--sm"
+                  >
+                    <mat-icon class="icon-sm">code</mat-icon>
+                    {{ i18n.t('playground.card.viewSource') }}
+                  </a>
+                </footer>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <mat-icon class="icon-xl">sports_esports</mat-icon>
+            <h3>{{ i18n.t('playground.empty.title') }}</h3>
+            <p>{{ i18n.t('playground.empty.desc') }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- ============================================================= -->
+  <!-- VIEW: ACTIVE GAME                                             -->
+  <!-- ============================================================= -->
+  @else {
+    <!-- ============ GAME CHROME (back link + source link) ============ -->
+    <section class="playground-game-bar">
+      <div class="container playground-game-bar__inner">
+        <button
+          type="button"
+          class="back-link"
+          (click)="backToHub()"
+        >
+          <mat-icon class="icon-sm">arrow_back</mat-icon>
+          <span>{{ i18n.t('playground.back') }}</span>
+        </button>
+
+        @if (activeGame(); as game) {
+          <div class="game-bar__title">
+            <mat-icon class="icon-sm">{{ game.thumbnailIcon }}</mat-icon>
+            <span>{{ title(game) }}</span>
+          </div>
+
+          <a
+            [href]="game.sourceRepoUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="source-link"
+            [attr.aria-label]="i18n.t('playground.sourceLink') + ' — ' + title(game)"
+          >
+            <mat-icon class="icon-sm">code</mat-icon>
+            <span>{{ i18n.t('playground.sourceLink') }}</span>
+          </a>
+        }
+      </div>
+    </section>
+
+    <!-- ============ GAME RENDER AREA ============ -->
+    <section class="playground-game-host">
+      <div class="container">
+
+        @if (isLoading()) {
+          <div class="game-loading">
+            <mat-spinner diameter="36"></mat-spinner>
+            <span>{{ i18n.t('playground.loading') }}</span>
+          </div>
+        }
+
+        @else if (isNotFound() || !activeGame()) {
+          <div class="game-not-found">
+            <mat-icon class="icon-xl">videogame_asset_off</mat-icon>
+            <h3>{{ i18n.t('playground.notFound.title') }}</h3>
+            <p>{{ i18n.t('playground.notFound.desc') }}</p>
+            <button
+              type="button"
+              class="btn btn--primary btn--sm"
+              (click)="backToHub()"
+            >
+              <mat-icon class="icon-sm">arrow_back</mat-icon>
+              {{ i18n.t('playground.notFound.cta') }}
+            </button>
+          </div>
+        }
+
+        @else {
+          @if (activeGame(); as game) {
+            <p class="game-tagline">{{ tagline(game) }}</p>
+          }
+
+          @if (gameComponent(); as comp) {
+            <ng-container *ngComponentOutlet="comp"></ng-container>
+          }
+        }
+
+      </div>
+    </section>
+  }
+
+</div>
