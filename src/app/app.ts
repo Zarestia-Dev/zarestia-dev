@@ -2,7 +2,6 @@ import {
   Component,
   inject,
   afterNextRender,
-  signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Navbar } from './components/navbar/navbar';
@@ -32,16 +31,11 @@ export class App {
   protected readonly tabService = inject(TabService);
   protected readonly i18n = inject(TranslationService);
 
-  /** True once the app has rendered at least once — used to gate entrance animations. */
-  readonly booted = signal(false);
-
   constructor() {
     afterNextRender(() => {
       window.addEventListener('popstate', () => {
         this.tabService.syncFromUrl();
       });
-      window.dispatchEvent(new Event('zarestia:booted'));
-      requestAnimationFrame(() => this.booted.set(true));
     });
   }
 }

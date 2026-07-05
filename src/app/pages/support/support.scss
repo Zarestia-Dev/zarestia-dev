@@ -130,6 +130,71 @@
 
 .platforms-grid {
   @include grid-responsive(min(20rem, 100%), var(--space-xl));
+
+  // When only one platform is enabled, center it and cap the width so it
+  // doesn't stretch to fill the whole row.
+  &--single {
+    display: flex;
+    justify-content: center;
+
+    .platform-card {
+      max-width: 460px;
+      width: 100%;
+    }
+  }
+}
+
+// ============================================================================
+// REGION NOTICE — explains why only GitHub Sponsors is available.
+// ============================================================================
+.region-notice {
+  padding: 0 0 var(--space-xl);
+}
+
+.region-notice-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-circle);
+    background: rgba(var(--z-lime-400-rgb), 0.25);
+    color: var(--green-700, var(--primary));
+    flex-shrink: 0;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-2xs);
+    color: var(--fg-primary);
+  }
+
+  &__text {
+    font-size: var(--font-size-sm);
+    color: var(--fg-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    padding: var(--space-md);
+  }
 }
 
 .platform-card {

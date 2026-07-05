@@ -27,8 +27,9 @@ The site has 5 pages, kept intentionally simple and understated:
 3. **Projects** — All repos from the `Zarestia-Dev` org with filter + sort. The only
    place projects appear (no duplication).
 4. **Profile** — Maintainer's GitHub identity card + language breakdown chart.
-5. **Support** — Low-pressure support page linking to GitHub Sponsors, Ko-fi,
-   Buy Me a Coffee, and PayPal. No in-house donation system.
+5. **Support** — Low-pressure support page linking to GitHub Sponsors
+   (the only payment platform that works reliably from Turkey). Also lists
+   free ways to help: star, share, open an issue. No in-house donation system.
 
 ## Project Structure
 
@@ -48,11 +49,11 @@ src/
 │   ├── services/
 │   │   ├── tab.service.ts          # Signal-driven page navigation
 │   │   ├── theme.service.ts        # Light / dark / system theme
-│   │   ├── translation.service.ts  # Signal-based i18n (en/tr, extensible)
-│   │   └── github.service.ts       # Loads build-time GitHub data into signals
-│   ├── translations/            # i18n dictionaries (one file per locale)
-│   │   ├── en.ts
-│   │   └── tr.ts
+│   │   ├── translation.service.ts  # Signal-based i18n (40+ locales, English fallback)
+│   │   └── github.service.ts       # Runtime GitHub data via Cloudflare Worker proxy
+│   ├── translations/            # i18n dictionaries (one JSON file per locale)
+│   │   ├── en.json
+│   │   └── tr.json
 │   ├── pages/                  # The 5 site pages
 │   │   ├── home/
 │   │   ├── about/
@@ -62,16 +63,10 @@ src/
 │   ├── app.ts                  # Root component
 │   ├── app.config.ts           # Zoneless providers
 │   └── app.html                # Navbar + @switch page + Footer
-├── generated/                  # Build-time output
-│   └── github-data.json        # Profile (personal) + repos/languages (org)
 ├── animations.scss             # Global keyframes & animation utility classes
 ├── styles.scss                 # Theme tokens, palette, spacing, mobile optimizations
 ├── styles/_mixins.scss         # Reusable SCSS mixins
-└── index.html                  # Shell + boot splash + early theme detection + Material Icons font
-
-scripts/
-├── fetch-github-data.mjs       # GitHub fetcher (GraphQL for org pinnedItems, REST for profile)
-└── assemble-data.py            # Helper that assembles real data into github-data.json
+└── index.html                  # Shell + early theme detection + Material Icons font
 
 public/                         # Static assets served as-is
 ├── logo.svg                   # Brand logo (SVG, scalable)
@@ -120,43 +115,40 @@ This project uses a **lightweight signal-based i18n** approach instead of
 - **Translations are plain JSON** (`en.json`, `tr.json`) — easy to edit by
   non-developers, clean git diffs, no TypeScript boilerplate.
 
-**Adding a new language:**
+**System-supported languages:** Every locale listed in `LANGUAGES` (in
+`translation.service.ts`) is selectable in the navbar switcher. Only `en`
+and `tr` ship a full translation file today; all other locales fall back to
+English for every key. This lets users pick their preferred locale for
+`<html lang>` / `dir` attributes right now, without waiting for a full
+translation pass.
 
-1. Create `src/app/translations/<code>.json` (copy `en.json` and translate every key)
-2. Register it in `TranslationService.TRANSLATIONS` and add it to `LANGUAGES`
-3. The language switcher in the navbar picks it up automatically
+**Adding a new language (two flavors):**
+
+- **System-supported only (English fallback):** add one entry to `LANGUAGES`
+  in `translation.service.ts`. The switcher picks it up automatically.
+- **Fully translated:** additionally create
+  `src/app/translations/<code>.json` (copy `en.json` and translate every
+  key), then import and register it in the `TRANSLATIONS` map at the top of
+  `translation.service.ts`.
 
 ## GitHub Data Fetching
 
-The site displays real GitHub data without hitting the API at runtime:
+The site displays real GitHub data fetched at runtime from a Cloudflare
+Worker proxy:
 
 - **Profile** (bio, avatar, followers, etc.) comes from the personal account
   [`Hakanbaban53`](https://github.com/Hakanbaban53)
 - **Repositories** and **language breakdown** come from the
   [`Zarestia-Dev`](https://github.com/Zarestia-Dev) organization
 
-Data is fetched at build time by `scripts/fetch-github-data.mjs` (which uses
-GraphQL `organization.pinnedItems` for repos and REST `/users/{username}`
-for profile) and written to `src/generated/github-data.json`. The
-`GithubService` imports this as a static JSON module.
+The Worker (configured via `environment.githubProxyUrl`) authenticates with
+a GitHub token server-side and caches responses at the edge
+(`s-maxage=900, max-age=300`). The Angular `GithubService` calls the Worker
+under `/api/github/*` and exposes the data as signals. localStorage caches
+the last successful fetch so the first paint is instant on repeat visits.
 
-**To refresh the data:**
-
-```bash
-npm run fetch:github           # explicit refresh
-npm run build                  # also refreshes as a pre-build step
-npm start                      # also refreshes as a pre-serve step
-```
-
-**To use an authenticated token (recommended — 5,000/hr vs. 60/hr):**
-
-```bash
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
-npm run fetch:github
-```
-
-The token is **only** read in `fetch-github-data.mjs` (a Node script) and
-never appears in the Angular bundle.
+No GitHub token ever reaches the browser bundle, and no rebuild is required
+when GitHub data changes — the cache simply ages out at the edge.
 
 ## Mobile Support
 
@@ -178,9 +170,8 @@ The site is mobile-first optimized:
 
 ```bash
 npm install
-npm start          # dev server on http://localhost:4200/ (refreshes GitHub data first)
-npm run build      # production build to dist/zarestia (refreshes GitHub data first)
-npm run fetch:github  # refresh GitHub data only, no build
+npm start          # dev server on http://localhost:4200/
+npm run build      # production build to dist/zarestia
 npm run lint       # run ESLint (flat config, includes Angular template rules)
 npm run lint:fix   # run ESLint and auto-fix what it can
 ```

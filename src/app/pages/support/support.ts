@@ -47,7 +47,8 @@ export class Support {
     { titleKey: 'support.why.item4.title', descKey: 'support.why.item4.desc', icon: 'auto_awesome', accent: 'silver' as const },
   ];
 
-  // Platform cards
+  // Platform cards — only GitHub Sponsors is enabled.
+  // Other platforms (PayPal, Ko-fi, Buy Me a Coffee) are not available in Turkey.
   protected readonly platforms: SupportPlatform[] = [
     {
       titleKey: 'support.platforms.sponsors.title',
@@ -57,33 +58,6 @@ export class Support {
       url: 'https://github.com/sponsors/Hakanbaban53',
       icon: 'favorite',
       accent: 'lime',
-    },
-    {
-      titleKey: 'support.platforms.kofi.title',
-      descKey: 'support.platforms.kofi.desc',
-      feeKey: 'support.platforms.kofi.fee',
-      ctaKey: 'support.platforms.kofi.cta',
-      url: 'https://ko-fi.com/hakanbaban53',
-      icon: 'local_cafe',
-      accent: 'green',
-    },
-    {
-      titleKey: 'support.platforms.bmc.title',
-      descKey: 'support.platforms.bmc.desc',
-      feeKey: 'support.platforms.bmc.fee',
-      ctaKey: 'support.platforms.bmc.cta',
-      url: 'https://www.buymeacoffee.com/hakanbaban53',
-      icon: 'free_breakfast',
-      accent: 'yellow',
-    },
-    {
-      titleKey: 'support.platforms.paypal.title',
-      descKey: 'support.platforms.paypal.desc',
-      feeKey: 'support.platforms.paypal.fee',
-      ctaKey: 'support.platforms.paypal.cta',
-      url: 'https://www.paypal.com/paypalme/hakanbaban53',
-      icon: 'account_balance_wallet',
-      accent: 'silver',
     },
   ];
 
@@ -122,5 +96,6 @@ export class Support {
     { qKey: 'support.faq.q3', aKey: 'support.faq.a3' },
     { qKey: 'support.faq.q4', aKey: 'support.faq.a4' },
     { qKey: 'support.faq.q5', aKey: 'support.faq.a5' },
+    { qKey: 'support.faq.q6', aKey: 'support.faq.a6' },
   ];
 }

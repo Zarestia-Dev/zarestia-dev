@@ -29,6 +29,21 @@
     </div>
   </section>
 
+  <!-- ============ REGION NOTICE ============ -->
+  <section class="region-notice">
+    <div class="container container-narrow">
+      <div class="region-notice-card" appReveal>
+        <span class="region-notice-card__icon" aria-hidden="true">
+          <mat-icon class="icon-md">info</mat-icon>
+        </span>
+        <div class="region-notice-card__body">
+          <h2 class="region-notice-card__title">{{ i18n.t('support.region.title') }}</h2>
+          <p class="region-notice-card__text">{{ i18n.t('support.region.body') }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ WHY SUPPORT ============ -->
   <section class="why">
     <div class="container">
@@ -66,8 +81,8 @@
         <p class="section-header__subtitle">{{ i18n.t('support.platforms.subtitle') }}</p>
       </header>
 
-      <div class="platforms-grid">
-        @for (platform of platforms; track platform.titleKey; let i = $index) {
+      <div class="platforms-grid platforms-grid--single">
+        @for (platform of platforms; track platform.titleKey) {
           <a
             [href]="platform.url"
             target="_blank"
@@ -75,7 +90,6 @@
             class="platform-card"
             [class]="'accent-' + platform.accent"
             appReveal
-            [appRevealDelay]="i * 80"
           >
             <span class="platform-card__icon">
               <mat-icon class="icon-lg">{{ platform.icon }}</mat-icon>
