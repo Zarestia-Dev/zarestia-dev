@@ -1,6 +1,7 @@
 {
   "name": "zarestia",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Website for Zarestia, an open-source organization building foundational software and intuitive utilities.",
   "scripts": {
     "ng": "ng",

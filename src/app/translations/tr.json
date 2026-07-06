@@ -125,7 +125,7 @@
   "footer.newsletter.text": "Ara sıra bizden notlar: yeni sürümler, sahne arkası, ara sıra bir haiku. İzleme yok, istediğiniz zaman çıkabilirsiniz.",
   "footer.subscribe": "Abone ol",
   "footer.emailPlaceholder": "siz@biryer.dev",
-  "footer.copyright": "© {{year}} Zarestia. MIT & Apache-2.0 altında yayınlandı.",
+  "footer.copyright": "© {{year}} Zarestia. MIT Lisansı altında yayınlandı.",
   "footer.credit": "Rüzgârın bereketiyle hazırlandı.",
   "footer.status": "Tüm sistemler çalışıyor",
   "common.lang.switch": "Dili değiştir",

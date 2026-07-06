@@ -125,7 +125,7 @@
   "footer.newsletter.text": "Occasional notes from us: new releases, behind-the-scenes, the occasional haiku. No tracking, unsubscribe anytime.",
   "footer.subscribe": "Subscribe",
   "footer.emailPlaceholder": "you@somewhere.dev",
-  "footer.copyright": "© {{year}} Zarestia. Released under MIT & Apache-2.0.",
+  "footer.copyright": "© {{year}} Zarestia. Released under the MIT License.",
   "footer.credit": "Crafted with the wind's blessing.",
   "footer.status": "All systems operational",
   "common.lang.switch": "Switch language",

@@ -221,17 +221,12 @@
   &:hover {
     color: var(--accent);
     background: var(--accent-soft);
-    transform: translateY(-1px);
   }
 
   &__label {
     font-weight: var(--weight-semibold);
     text-transform: capitalize;
   }
-}
-
-.nav-cta {
-  // Override default for tighter spacing in navbar
 }
 
 // ============================================================================
