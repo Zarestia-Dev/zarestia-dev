@@ -1,4 +1,4 @@
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { TranslationService } from '../../services/translation.service';
 import { GithubService } from '../../services/github.service';
@@ -7,7 +7,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
 
 @Component({
   selector: 'app-about',
-  imports: [MatIconModule, RevealDirective],
+  imports: [MatIcon, RevealDirective],
   templateUrl: './about.html',
   styleUrl: './about.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

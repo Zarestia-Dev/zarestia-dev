@@ -1,9 +1,8 @@
 import {
   Directive,
-  OnInit,
-  OnDestroy,
   Input,
   ElementRef,
+  OnDestroy,
   afterNextRender,
   inject,
   PLATFORM_ID,
@@ -21,35 +20,24 @@ import { isPlatformBrowser } from '@angular/common';
 //   <div appReveal="scale" [appRevealDelay]="120">...</div>
 // ============================================================================
 
+type RevealVariant = 'up' | 'left' | 'right' | 'scale';
+
 @Directive({
   selector: '[appReveal]',
 })
-export class RevealDirective implements OnInit, OnDestroy {
-  @Input('appReveal') variant: '' | 'up' | 'left' | 'right' | 'scale' = 'up';
+export class RevealDirective implements OnDestroy {
+  @Input('appReveal') variant: RevealVariant | '' = 'up';
   @Input() appRevealDelay = 0;
   @Input() appRevealThreshold = 0.15;
   @Input() appRevealOnce = true;
 
-  private el = inject(ElementRef<HTMLElement>);
-  private platformId = inject(PLATFORM_ID);
+  private readonly host = inject(ElementRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private observer?: IntersectionObserver;
 
   constructor() {
-    // afterNextRender MUST be called from an injection context (constructor),
-    // not from ngOnInit — otherwise Angular throws NG0203.
-    afterNextRender(() => {
-      this.setupObserver();
-    });
-  }
-
-  ngOnInit(): void {
-    // SSR / non-browser fallback: just mark visible immediately
-    if (!isPlatformBrowser(this.platformId)) {
-      this.markVisible();
-      return;
-    }
-    if (!('IntersectionObserver' in window)) {
-      this.markVisible();
+    if (this.isBrowser) {
+      afterNextRender(() => this.setupObserver());
     }
   }
 
@@ -57,14 +45,19 @@ export class RevealDirective implements OnInit, OnDestroy {
     this.observer?.disconnect();
   }
 
+  private get node(): HTMLElement {
+    return this.host.nativeElement as HTMLElement;
+  }
+
   private setupObserver(): void {
+    const node = this.node;
+
     if (!('IntersectionObserver' in window)) {
-      this.markVisible();
+      node.classList.add('is-visible');
       return;
     }
 
-    const node = this.el.nativeElement;
-    const v = this.variant || 'up';
+    const v: RevealVariant = this.variant || 'up';
     node.setAttribute('data-reveal', v);
     if (this.appRevealDelay) {
       node.style.transitionDelay = `${this.appRevealDelay}ms`;
@@ -74,7 +67,7 @@ export class RevealDirective implements OnInit, OnDestroy {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            this.markVisible();
+            entry.target.classList.add('is-visible');
             if (this.appRevealOnce) {
               this.observer?.disconnect();
             }
@@ -86,9 +79,5 @@ export class RevealDirective implements OnInit, OnDestroy {
       { threshold: this.appRevealThreshold, rootMargin: '0px 0px -8% 0px' }
     );
     this.observer.observe(node);
-  }
-
-  private markVisible(): void {
-    this.el.nativeElement.classList.add('is-visible');
   }
 }

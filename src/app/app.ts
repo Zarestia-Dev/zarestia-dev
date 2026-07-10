@@ -2,8 +2,11 @@ import {
   Component,
   inject,
   afterNextRender,
+  DestroyRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { fromEvent } from 'rxjs';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
 import { Home } from './pages/home/home';
@@ -32,10 +35,11 @@ export class App {
   protected readonly i18n = inject(TranslationService);
 
   constructor() {
+    const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
-      window.addEventListener('popstate', () => {
-        this.tabService.syncFromUrl();
-      });
+      fromEvent(window, 'popstate')
+        .pipe(takeUntilDestroyed(destroyRef))
+        .subscribe(() => this.tabService.syncFromUrl());
     });
   }
 }

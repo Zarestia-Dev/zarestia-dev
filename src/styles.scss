@@ -313,7 +313,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   transition: background-color var(--transition-standard), color var(--transition-standard);
-  overflow-x: hidden;
+  // Horizontal overflow is hidden so decorative blobs that bleed off the
+  // viewport don't introduce a stray horizontal scrollbar.
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 {

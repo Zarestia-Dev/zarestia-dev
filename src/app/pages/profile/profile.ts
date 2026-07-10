@@ -1,5 +1,5 @@
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { TranslationService } from '../../services/translation.service';
 import { GithubService } from '../../services/github.service';
@@ -7,7 +7,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
 
 @Component({
   selector: 'app-profile',
-  imports: [MatIconModule, MatProgressSpinnerModule, RevealDirective],
+  imports: [MatIcon, MatProgressSpinner, RevealDirective],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

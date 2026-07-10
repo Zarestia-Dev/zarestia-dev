@@ -1,5 +1,5 @@
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Component, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TranslationService } from '../../services/translation.service';
 import { GithubService, GitHubRepo } from '../../services/github.service';
@@ -10,7 +10,7 @@ type SortKind = 'stars' | 'name' | 'recent';
 
 @Component({
   selector: 'app-projects',
-  imports: [MatIconModule, MatProgressSpinnerModule, RevealDirective],
+  imports: [MatIcon, MatProgressSpinner, RevealDirective],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,6 +33,8 @@ export class Projects {
     { value: 'name',   labelKey: 'projects.sort.name' },
     { value: 'recent', labelKey: 'projects.sort.recent' },
   ];
+
+  readonly skeletonCards = [1, 2, 3] as const;
 
   readonly filteredRepos = computed<GitHubRepo[]>(() => {
     const filter = this.activeFilter();

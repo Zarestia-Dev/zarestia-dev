@@ -76,10 +76,10 @@
                 <dt><mat-icon class="icon-sm">event</mat-icon></dt>
                 <dd>{{ joinedDate() }}</dd>
               </div>
-              @if (blogUrl()) {
+              @if (blogUrl(); as blog) {
                 <div class="meta-row">
                   <dt><mat-icon class="icon-sm">link</mat-icon></dt>
-                  <dd><a [href]="blogUrl()!" target="_blank" rel="noopener noreferrer">{{ profile.blog }}</a></dd>
+                  <dd><a [href]="blog" target="_blank" rel="noopener noreferrer">{{ profile.blog }}</a></dd>
                 </div>
               }
               <div class="meta-row">

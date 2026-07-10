@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/eslint",
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "eslint.config.js"
+  ]
+}

@@ -1,10 +1,9 @@
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import {
   Component,
   HostListener,
   inject,
   signal,
-  effect,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { TabService, AppTab } from '../../services/tab.service';
@@ -25,7 +24,7 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MatIconModule, LanguageSwitcher],
+  imports: [MatIcon, LanguageSwitcher],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,16 +38,6 @@ export class Navbar {
 
   readonly isScrolled = signal(false);
   readonly isMobileMenuOpen = signal(false);
-
-  constructor() {
-    // Auto-close mobile menu when scaling up to desktop
-    effect(() => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth > 860 && this.isMobileMenuOpen()) {
-        this.isMobileMenuOpen.set(false);
-      }
-    });
-  }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

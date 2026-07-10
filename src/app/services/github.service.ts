@@ -9,11 +9,10 @@ import { environment } from '../../environments/environment';
 // The site fetches GitHub data at runtime from a Cloudflare Worker that:
 //   - Authenticates with a GitHub token (server-side, never exposed)
 //   - Caches responses at the edge (s-maxage=900, max-age=300)
-//   - Proxies both REST and GraphQL endpoints under /api/github/*
+//   - Proxies the REST endpoints under /api/github/*
 //
-// This means: no rebuild needed when GitHub data changes. The site loads,
-// shows a loading state, then fills in real data. localStorage caches the
-// last successful fetch so the first paint is instant on repeat visits.
+// localStorage caches the last successful fetch so the first paint is instant
+// on repeat visits. A failed refresh keeps showing cached data silently.
 // ============================================================================
 
 export interface GitHubProfile {
@@ -60,8 +59,6 @@ export interface GitHubRepo {
   topics: string[];
   languages: GitHubLanguage[];
   totalLanguageBytes: number;
-  openIssues: number;
-  openPulls: number;
 }
 
 export interface GitHubStats {
@@ -83,7 +80,7 @@ interface CachedData {
   stats: GitHubStats;
 }
 
-// ---- GitHub API raw response types (snake_case from API) ----
+// ---- GitHub REST API raw response types (snake_case as returned by API) ----
 interface GitHubUserResponse {
   login: string;
   name: string | null;
@@ -121,8 +118,30 @@ interface GitHubRepoResponse {
 }
 
 const CACHE_KEY = 'zarestia-github-cache';
-// Cache valid for 1 hour in localStorage (Worker has its own edge cache too)
+// Cache valid for 1 hour in localStorage (Worker has its own edge cache too).
 const CACHE_TTL_MS = 60 * 60 * 1000;
+
+// GitHub linguist colors for the most common languages in this org.
+// Anything not listed falls back to the muted silver tone.
+const LANGUAGE_COLORS: Readonly<Record<string, string>> = {
+  Rust: '#dea584',
+  TypeScript: '#3178c6',
+  JavaScript: '#f1e05a',
+  Python: '#3572A5',
+  'C#': '#178600',
+  HTML: '#e34c26',
+  SCSS: '#c6538c',
+  CSS: '#563d7c',
+  Shell: '#89e051',
+  Ruby: '#701516',
+  Go: '#00ADD8',
+  Dockerfile: '#384d54',
+  PowerShell: '#012456',
+  Kotlin: '#A97BFF',
+  Just: '#384d54',
+  TSQL: '#e38c00',
+};
+const FALLBACK_LANG_COLOR = '#95999B';
 
 @Injectable({ providedIn: 'root' })
 export class GithubService {
@@ -142,29 +161,13 @@ export class GithubService {
   readonly stats = signal<GitHubStats | null>(null);
 
   // ---- Computed convenience getters ----
-  readonly activeRepos = computed<GitHubRepo[]>(() =>
-    this.repos().filter((r) => !r.isArchived && !r.isFork)
-  );
-
   readonly topLanguages = computed<GitHubLanguage[]>(() =>
     [...this.languages()].sort((a, b) => b.bytes - a.bytes).slice(0, 6)
   );
 
-  readonly totalStars = computed<number>(() =>
-    this.repos().reduce((s, r) => s + r.stars, 0)
-  );
-
-  readonly totalForks = computed<number>(() =>
-    this.repos().reduce((s, r) => s + r.forks, 0)
-  );
-
-  // ---- Initialization ----
-  // Trigger fetch immediately on service creation (first inject).
-  // We don't await — components observe the signals.
+  // Trigger fetch immediately on first inject (components observe signals).
   constructor() {
-    // 1. Load cached data synchronously (instant first paint on repeat visits)
     this.loadFromCache();
-    // 2. Fetch fresh data in the background
     void this.fetchAll();
   }
 
@@ -202,15 +205,14 @@ export class GithubService {
       this.fetchedAt.set(new Date().toISOString());
       this.error.set(null);
 
-      // Persist to localStorage for instant next load
       this.saveToCache({ profile, pinnedRepos: featured, languages, stats });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load GitHub data.';
-      // Only set error if we have no cached data to fall back on
+      // Keep showing cached data silently if we have any; only surface the
+      // error when there's nothing to fall back on.
       if (!this.profile()) {
         this.error.set(message);
       }
-      // If we have cached data, keep showing it silently
     } finally {
       this.loading.set(false);
     }
@@ -220,19 +222,19 @@ export class GithubService {
     const data = await this.restGet<GitHubUserResponse>(`/users/${this.username}`);
     return {
       login: data.login,
-      name: data.name || data.login,
-      bio: data.bio || '',
+      name: data.name ?? data.login,
+      bio: data.bio ?? '',
       avatarUrl: data.avatar_url,
       htmlUrl: data.html_url,
       followers: data.followers ?? 0,
       following: data.following ?? 0,
       publicRepos: data.public_repos ?? 0,
       publicGists: data.public_gists ?? 0,
-      company: data.company || null,
-      blog: data.blog || null,
-      location: data.location || null,
-      email: data.email || null,
-      twitterUsername: data.twitter_username || null,
+      company: data.company ?? null,
+      blog: data.blog ?? null,
+      location: data.location ?? null,
+      email: data.email ?? null,
+      twitterUsername: data.twitter_username ?? null,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
     };
@@ -245,7 +247,7 @@ export class GithubService {
     return Array.isArray(data) ? data : [];
   }
 
-  /** Select featured repos: non-fork, sorted by stars then recency, top 6. */
+  /** Featured repos: non-fork, sorted by stars, top 6. */
   private selectFeaturedRepos(repos: GitHubRepoResponse[]): GitHubRepo[] {
     return repos
       .filter((r) => !r.fork)
@@ -254,23 +256,21 @@ export class GithubService {
       .map((r) => ({
         name: r.name,
         nameWithOwner: r.full_name,
-        description: r.description || '',
+        description: r.description ?? '',
         url: r.html_url,
-        homepageUrl: r.homepage || null,
+        homepageUrl: r.homepage ?? null,
         stars: r.stargazers_count,
         forks: r.forks_count,
         isArchived: r.archived,
         isFork: r.fork,
-        primaryLanguage: r.language || null,
+        primaryLanguage: r.language ?? null,
         primaryLanguageColor: null,
         updatedAt: r.updated_at,
         pushedAt: r.pushed_at,
-        license: r.license?.spdx_id || null,
-        topics: r.topics || [],
+        license: r.license?.spdx_id ?? null,
+        topics: r.topics ?? [],
         languages: [],
         totalLanguageBytes: 0,
-        openIssues: 0,
-        openPulls: 0,
       }));
   }
 
@@ -284,30 +284,28 @@ export class GithubService {
       )
     );
 
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      if (result.status !== 'fulfilled') continue;
+    results.forEach((result, i) => {
+      if (result.status !== 'fulfilled') return;
       const langs = result.value;
-      // Update the repo's own language list
       const repoLangs: GitHubLanguage[] = [];
       let totalBytes = 0;
+
       for (const [name, bytes] of Object.entries(langs)) {
         totalBytes += bytes;
-        const color = this.languageColor(name);
+        const color = LANGUAGE_COLORS[name] ?? FALLBACK_LANG_COLOR;
         const entry = langMap.get(name) ?? { color, bytes: 0 };
         entry.bytes += bytes;
         langMap.set(name, entry);
         repoLangs.push({ name, color, bytes, percent: 0 });
       }
+
       repos[i].languages = repoLangs;
       repos[i].totalLanguageBytes = totalBytes;
-      // Set primary language color
       if (repos[i].primaryLanguage && !repos[i].primaryLanguageColor) {
-        repos[i].primaryLanguageColor = this.languageColor(repos[i].primaryLanguage ?? '');
+        repos[i].primaryLanguageColor = LANGUAGE_COLORS[repos[i].primaryLanguage] ?? FALLBACK_LANG_COLOR;
       }
-    }
+    });
 
-    // Aggregate + compute percentages
     const totalBytes = [...langMap.values()].reduce((s, l) => s + l.bytes, 0);
     return [...langMap.entries()]
       .map(([name, { color, bytes }]) => ({
@@ -338,7 +336,7 @@ export class GithubService {
     };
   }
 
-  // ---- HTTP helpers ----
+  // ---- HTTP helper ----
 
   private async restGet<T>(path: string): Promise<T> {
     const url = `${this.proxyUrl}/api/github${path}`;
@@ -351,19 +349,20 @@ export class GithubService {
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (!raw) return;
-      const cached: CachedData = JSON.parse(raw);
-      // Check TTL
+      const cached = JSON.parse(raw) as CachedData;
+      // Skip if older than 24h — the Worker edge cache is fresher.
       const age = Date.now() - new Date(cached.meta.fetchedAt).getTime();
-      if (age > CACHE_TTL_MS * 24) return; // stale beyond 24h — skip
+      if (age > CACHE_TTL_MS * 24) return;
+
       this.profile.set(cached.profile);
       this.repos.set(cached.pinnedRepos);
       this.languages.set(cached.languages);
       this.stats.set(cached.stats);
       this.fetchedAt.set(cached.meta.fetchedAt);
-      // We have cached data — don't show a spinner, just refresh silently
+      // Cached data exists — skip the spinner, refresh silently.
       this.loading.set(false);
     } catch {
-      // ignore corrupt cache
+      // Corrupt cache — ignore and let the fetch repopulate.
     }
   }
 
@@ -379,7 +378,7 @@ export class GithubService {
       };
       localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
     } catch {
-      // localStorage full or unavailable — non-fatal
+      // localStorage full or unavailable — non-fatal.
     }
   }
 
@@ -391,11 +390,7 @@ export class GithubService {
   }
 
   formatDate(iso: string): string {
-    try {
-      return iso.slice(0, 10);
-    } catch {
-      return iso;
-    }
+    return iso.slice(0, 10);
   }
 
   formatBytes(bytes: number): string {
@@ -408,33 +403,5 @@ export class GithubService {
     if (!url) return null;
     if (/^https?:\/\//i.test(url)) return url;
     return `https://${url}`;
-  }
-
-  displayName(): string {
-    const p = this.profile();
-    return p?.name || p?.login || this.username;
-  }
-
-  // ---- Language color lookup (GitHub linguist colors) ----
-  private languageColor(name: string): string {
-    const colors: Record<string, string> = {
-      Rust: '#dea584',
-      TypeScript: '#3178c6',
-      JavaScript: '#f1e05a',
-      Python: '#3572A5',
-      'C#': '#178600',
-      HTML: '#e34c26',
-      SCSS: '#c6538c',
-      CSS: '#563d7c',
-      Shell: '#89e051',
-      Ruby: '#701516',
-      Go: '#00ADD8',
-      Dockerfile: '#384d54',
-      PowerShell: '#012456',
-      Kotlin: '#A97BFF',
-      Just: '#384d54',
-      TSQL: '#e38c00',
-    };
-    return colors[name] ?? '#95999B';
   }
 }

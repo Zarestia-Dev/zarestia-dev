@@ -140,12 +140,11 @@
   max-width: 520px;
 
   @media (max-width: 1024px) {
-    order: 2;
-    max-width: 320px;
+    max-width: 360px;
   }
 
   @media (max-width: 480px) {
-    max-width: 240px;
+    max-width: 260px;
   }
 }
 

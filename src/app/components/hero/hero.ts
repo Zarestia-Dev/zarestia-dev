@@ -1,4 +1,4 @@
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TabService, AppTab } from '../../services/tab.service';
 import { TranslationService } from '../../services/translation.service';
@@ -11,7 +11,7 @@ import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-hero',
-  imports: [MatIconModule],
+  imports: [MatIcon],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

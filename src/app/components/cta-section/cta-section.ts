@@ -1,4 +1,4 @@
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TabService, AppTab } from '../../services/tab.service';
 import { TranslationService } from '../../services/translation.service';
@@ -11,7 +11,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
 
 @Component({
   selector: 'app-cta-section',
-  imports: [MatIconModule, RevealDirective],
+  imports: [MatIcon, RevealDirective],
   templateUrl: './cta-section.html',
   styleUrl: './cta-section.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
