@@ -55,7 +55,7 @@ export class Support {
       descKey: 'support.platforms.sponsors.desc',
       feeKey: 'support.platforms.sponsors.fee',
       ctaKey: 'support.platforms.sponsors.cta',
-      url: 'https://github.com/sponsors/Hakanbaban53',
+      url: 'https://github.com/sponsors/Zarestia-Dev',
       icon: 'favorite',
       accent: 'lime',
     },
