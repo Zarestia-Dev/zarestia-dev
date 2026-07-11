@@ -68,7 +68,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     label: 'GitHub Sponsors',
-    url: 'https://github.com/sponsors/Hakanbaban53',
+    url: 'https://github.com/sponsors/Zarestia-Dev',
     icon: 'favorite',
     type: 'highlight',
   },
